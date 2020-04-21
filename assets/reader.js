@@ -63,18 +63,23 @@ function movePairs(ids) {
     return;
   }
   for (let id of ids1) {
-    let el = $article1.find(id);
+    let id2 = id.replace(/-$/, ''), el = $article1.find(id2);
+    console.assert(el.length, id2 + ' not found: ' + ids);
     if (el.length) {
       el.remove();
-      $left.append(el);
+      if (!/-$/.test(id)) {
+        $left.append(el);
+      }
     }
   }
   for (let id of ids2) {
-    let el = $article2.find(id);
-    console.assert(el.length, id + ' not found: ' + ids);
+    let id2 = id.replace(/-$/, ''), el = $article2.find(id2);
+    console.assert(el.length, id2 + ' not found: ' + ids);
     if (el.length) {
       el.remove();
-      $right.append(el);
+      if (!/-$/.test(id)) {
+        $right.append(el);
+      }
     }
   }
   $('#merged').append($row);
