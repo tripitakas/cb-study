@@ -35,9 +35,12 @@ div.lg + p { margin-top: .5em; }
 p { text-indent: 2em; }
 span.hint { color: blue; }
 
+p { margin: 4px 0 4px; }
+
 html, body {
   margin: 0;
   padding: 0;
+  font-size: 14px;
 }
 
 body {
@@ -64,11 +67,19 @@ body {
 
 #merged.show-box > .row {
   border: 1px solid #aaa;
-  margin: 2px;
   padding: 2px;
 }
 
 #merged.show-box > .row p {
   border: 1px solid #999;
   margin: 1px;
+}
+
+#merged .row {
+  border: 1px solid transparent;
+  margin: 2px;
+}
+
+#merged .row:hover {
+  border: 1px solid rgba(64, 64, 64, .1);
 }
