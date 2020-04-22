@@ -25,7 +25,34 @@ $('#show-box').click(() => {
   $('#merged').toggleClass('show-box');
 });
 
-var fontSize = 14;
+$('#show-hide-txt').click(() => {
+  $('#merged').toggleClass('show-hide-txt');
+});
+
+$('#show-left').click(() => {
+  let $left = $('#merged .cell-l'), $right = $('#merged .cell-r');
+  $left.removeClass('col-xs-6');
+  $left.show();
+  $right.hide();
+});
+
+$('#show-right').click(() => {
+  let $left = $('#merged .cell-l'), $right = $('#merged .cell-r');
+  $right.removeClass('col-xs-6');
+  $right.show();
+  $left.hide();
+});
+
+$('#show-both').click(() => {
+  let $left = $('#merged .cell-l'), $right = $('#merged .cell-r');
+  $left.addClass('col-xs-6');
+  $right.addClass('col-xs-6');
+  $left.show();
+  $right.show();
+});
+
+
+let fontSize = 16;
 
 $('#enlarge-font').click(() => {
   if (fontSize < 36) {
@@ -54,10 +81,13 @@ function toSelId(s) {
 }
 
 function movePairs(ids) {
-  const ids1 = (ids.split('|')[0] || '').split(' ').map(toSelId).filter(function (s) { return s; });
-  const ids2 = (ids.split('|')[1] || '').split(' ').map(toSelId).filter(function (s) { return s; });
-  const $row = $('<div class="row"><div class="col-xs-6 cell-l"/><div class="col-xs-6 cell-r"/></div>');
-  const $left = $row.find('.cell-l'), $right = $row.find('.cell-r');
+  const $article1 = $('.original#body-left'),
+      $article2 = $('.original#body-right'),
+      ids1 = (ids.split('|')[0] || '').split(' ').map(toSelId).filter(function (s) { return s; }),
+      ids2 = (ids.split('|')[1] || '').split(' ').map(toSelId).filter(function (s) { return s; }),
+      $row = $('<div class="row"><div class="col-xs-6 cell-l"/><div class="col-xs-6 cell-r"/></div>'),
+      $left = $row.find('.cell-l'), $right = $row.find('.cell-r');
+  let count = 0;
 
   if (!ids1.length && !ids2.length) {
     return;
@@ -67,9 +97,12 @@ function movePairs(ids) {
     console.assert(el.length, id2 + ' not found: ' + ids);
     if (el.length) {
       el.remove();
-      if (!/-$/.test(id)) {
-        $left.append(el);
+      if (/-$/.test(id)) {
+        el.addClass('hide-txt');
+      } else {
+        count++;
       }
+      $left.append(el);
     }
   }
   for (let id of ids2) {
@@ -77,10 +110,16 @@ function movePairs(ids) {
     console.assert(el.length, id2 + ' not found: ' + ids);
     if (el.length) {
       el.remove();
-      if (!/-$/.test(id)) {
-        $right.append(el);
+      if (/-$/.test(id)) {
+        el.addClass('hide-txt');
+      } else {
+        count++;
       }
+      $right.append(el);
     }
+  }
+  if (count === 0) {
+    $row.addClass('hide-txt');
   }
   $('#merged').append($row);
 }
