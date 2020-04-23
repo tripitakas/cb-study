@@ -127,10 +127,71 @@ function movePairs(ids) {
 function convertToSpanWithTag(tag, value, text) {
   let sel = window.getSelection(),  // 选中范围，非IE
       node = sel.anchorNode,  // 选择区的起点对象，要与结束对象focusNode相同，且为P内不属于span的普通文字
-      p = node.parentElement, // 段落元素，应为P
+      p = node && node.parentElement, // 段落元素，应为P
       selText = sel.toString(); // 选择的文字
 
-  if (selText && value && text && p.tagName === 'P' && node === sel.focusNode && node.nodeName === '#text') {
-    p.innerHTML = p.innerHTML.replace(selText, '<span ' + tag + '="' + value +'">' + selText + '</span>');
+  if (selText && value && text && p && p.tagName === 'P' && node === sel.focusNode && node.nodeName === '#text') {
+    p.innerHTML = p.innerHTML.replace(selText, '<span ' + tag + '="' + value +'">' + selText +
+        '<sup>[' + value + ':' + text.substring(0, 4) + ']</sup></span>');
+  } else {
+    console.log(value, text, p);
   }
 }
+
+$('#show-inline-judg').click(() => {
+  const tree = $.jstree.reference('#judgments');
+
+  $('body').toggleClass('show-inline-judg');
+  $('span[judg]').each((i, s) => {
+    let $s = $(s), $j = $s.find('.judg-text');
+
+    if ($j.length) {
+      $j.remove();
+    } else {
+      const node = tree.get_node($s.attr('judg'));
+      $j = $('<span class="judg-text">[' + node.text.replace(/^.+、|[(（].+$/g, '') + ']</span>');
+      $s.append($j);
+    }
+  });
+});
+
+function highlightJudg(judgId) {
+  const tree = $.jstree.reference('#judgments');
+  const nodes = tree.get_children_dom(judgId);
+
+  nodes.push(tree.get_node(judgId, true)[0]);
+  for (let node of nodes.get()) {
+    let $s = $('[judg="' + node.getAttribute('id') + '"]');
+    if ($s.length) {
+      $s.addClass('highlight');
+      setTimeout(() => {
+        $s.removeClass('highlight');
+      }, 1000);
+    }
+  }
+}
+
+$(document).on('mouseenter', '[judg]', function (e) {
+  const tree = $.jstree.reference('#judgments');
+  const judgId = e.target.getAttribute('judg');
+  const node = tree.get_node(judgId);
+  let texts = [];
+
+  tree.deselect_all(true);
+  tree.select_node(judgId, true);
+  if (node) {
+    for (let p of node.parents) {
+      let t = tree.get_node(p).text;
+      if (t) {
+        texts.push(t);
+      }
+    }
+    texts.push(node.text);
+  }
+
+  $('.judg-path').text(texts.join(' / '));
+});
+
+$(document).on('click', '[judg]', function (e) {
+  highlightJudg(e.target.getAttribute('judg'));
+});

@@ -10,16 +10,6 @@ let judgments = {
         "children": [
           {
             "text": "偈頌",
-            "children": [
-              {
-                "text": "歸憑三寶",
-                "id": 11
-              },
-              {
-                "text": "述造論意",
-                "id": 12
-              }
-            ],
             "id": 9
           },
           {
