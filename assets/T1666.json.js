@@ -10,6 +10,16 @@ let judgments = {
         "children": [
           {
             "text": "偈頌",
+            "children": [
+              {
+                "text": "歸憑三寶",
+                "id": 11
+              },
+              {
+                "text": "述造論意",
+                "id": 12
+              }
+            ],
             "id": 9
           },
           {
@@ -30,7 +40,7 @@ let judgments = {
         "id": 2
       },
       {
-        "text": "一、因缘分（作因）",
+        "text": "一因缘分",
         "children": [
           {
             "text": "正明八因",
@@ -54,7 +64,7 @@ let judgments = {
         "id": 3
       },
       {
-        "text": "二、立義分",
+        "text": "二立義分",
         "children": [
           {
             "text": "初標",
@@ -92,7 +102,7 @@ let judgments = {
         "id": 4
       },
       {
-        "text": "三、解釋分",
+        "text": "三解釋分",
         "children": [
           {
             "text": "立科",
@@ -788,7 +798,7 @@ let judgments = {
         "id": 5
       },
       {
-        "text": "四、修信分",
+        "text": "四修信分",
         "children": [
           {
             "text": "正明修習信心",
@@ -1006,7 +1016,7 @@ let judgments = {
         "id": 6
       },
       {
-        "text": "五、利益分",
+        "text": "五利益分",
         "children": [
           {
             "text": "總勸聞思修",

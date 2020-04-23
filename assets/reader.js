@@ -157,17 +157,16 @@ $('#show-inline-judg').click(() => {
 
 function highlightJudg(judgId) {
   const tree = $.jstree.reference('#judgments');
-  const nodes = tree.get_children_dom(judgId);
+  const $s = $('[judg="' + judgId + '"]');
 
-  nodes.push(tree.get_node(judgId, true)[0]);
+  $s.addClass('highlight');
+  setTimeout(() => {
+    $s.removeClass('highlight');
+  }, 1000);
+
+  const nodes = tree.get_children_dom(judgId);
   for (let node of nodes.get()) {
-    let $s = $('[judg="' + node.getAttribute('id') + '"]');
-    if ($s.length) {
-      $s.addClass('highlight');
-      setTimeout(() => {
-        $s.removeClass('highlight');
-      }, 1000);
-    }
+    highlightJudg(node.getAttribute('id'));
   }
 }
 
@@ -177,13 +176,11 @@ $(document).on('mouseenter', '[judg]', function (e) {
   const node = tree.get_node(judgId);
   let texts = [];
 
-  tree.deselect_all(true);
-  tree.select_node(judgId, true);
   if (node) {
     for (let p of node.parents) {
       let t = tree.get_node(p).text;
       if (t) {
-        texts.push(t);
+        texts.splice(0, 0, t);
       }
     }
     texts.push(node.text);
