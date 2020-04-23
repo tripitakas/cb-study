@@ -9,3 +9,6 @@
 
 # PyCharm
 .idea/
+
+# This project
+_*.*

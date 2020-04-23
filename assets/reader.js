@@ -22,29 +22,29 @@ $('#show-xu').click(() => {
 });
 
 $('#show-box').click(() => {
-  $('#merged').toggleClass('show-box');
+  $('body').toggleClass('show-box');
 });
 
 $('#show-hide-txt').click(() => {
-  $('#merged').toggleClass('show-hide-txt');
+  $('body').toggleClass('show-hide-txt');
 });
 
 $('#show-left').click(() => {
-  let $left = $('#merged .cell-l'), $right = $('#merged .cell-r');
+  let $left = $('.cell-l'), $right = $('.cell-r');
   $left.removeClass('col-xs-6');
   $left.show();
   $right.hide();
 });
 
 $('#show-right').click(() => {
-  let $left = $('#merged .cell-l'), $right = $('#merged .cell-r');
+  let $left = $('.cell-l'), $right = $('.cell-r');
   $right.removeClass('col-xs-6');
   $right.show();
   $left.hide();
 });
 
 $('#show-both').click(() => {
-  let $left = $('#merged .cell-l'), $right = $('#merged .cell-r');
+  let $left = $('.cell-l'), $right = $('.cell-r');
   $left.addClass('col-xs-6');
   $right.addClass('col-xs-6');
   $left.show();
@@ -122,4 +122,15 @@ function movePairs(ids) {
     $row.addClass('hide-txt');
   }
   $('#merged').append($row);
+}
+
+function convertToSpanWithTag(tag, value, text) {
+  let sel = window.getSelection(),  // 选中范围，非IE
+      node = sel.anchorNode,  // 选择区的起点对象，要与结束对象focusNode相同，且为P内不属于span的普通文字
+      p = node.parentElement, // 段落元素，应为P
+      selText = sel.toString(); // 选择的文字
+
+  if (selText && value && text && p.tagName === 'P' && node === sel.focusNode && node.nodeName === '#text') {
+    p.innerHTML = p.innerHTML.replace(selText, '<span ' + tag + '="' + value +'">' + selText + '</span>');
+  }
 }

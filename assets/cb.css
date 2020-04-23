@@ -48,15 +48,15 @@ body {
   -moz-osx-font-smoothing:grayscale;
 }
 
-@media print{
-  .no-print, .line-no {
+@media print {
+  .no-print, .line-no, footer, navbar {
     display: none;
   }
 }
 
 @media screen {
   body {
-    background: #C7EDCC;
+    background: #f5f5f5;
   }
 }
 
@@ -69,19 +69,19 @@ body {
   color: #999;
 }
 
-#merged.show-box > .row {
+.show-box .row {
   border-bottom: 1px solid #aaa;
 }
 
-#merged.show-box > .row p {
+.show-box .row p {
   border-bottom: 1px dotted #bbb;
   margin: 1px;
 }
 
-#merged.show-box > .row p:last-child {
+.show-box .row p:last-child {
   border-bottom: none;
 }
 
-#merged:not(.show-hide-txt) .hide-txt {
+body:not(.show-hide-txt) .hide-txt {
   display: none;
 }
