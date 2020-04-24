@@ -220,17 +220,17 @@ let judgments = {
                                             "text": "辨本覺義",
                                             "children": [
                                               {
-                                                "text": "標二相",
+                                                "text": "標本覺相",
                                                 "id": 64
                                               },
                                               {
-                                                "text": "釋二相",
+                                                "text": "釋本覺相",
                                                 "children": [
                                                   {
                                                     "text": "淨智相",
                                                     "children": [
                                                       {
-                                                        "text": "示相",
+                                                        "text": "示淨智相",
                                                         "id": 68
                                                       },
                                                       {
@@ -281,11 +281,11 @@ let judgments = {
                                 "text": "總辨同異",
                                 "children": [
                                   {
-                                    "text": "標",
+                                    "text": "標同異",
                                     "id": 72
                                   },
                                   {
-                                    "text": "釋",
+                                    "text": "釋同異",
                                     "children": [
                                       {
                                         "text": "同相",
@@ -438,21 +438,21 @@ let judgments = {
                                     "text": "真熏義別",
                                     "children": [
                                       {
-                                        "text": "標",
+                                        "text": "標真熏義別",
                                         "id": 103
                                       },
                                       {
-                                        "text": "釋",
+                                        "text": "釋真熏義別",
                                         "children": [
                                           {
                                             "text": "體熏",
                                             "children": [
                                               {
-                                                "text": "正釋",
+                                                "text": "正釋體熏",
                                                 "id": 108
                                               },
                                               {
-                                                "text": "釋疑",
+                                                "text": "體熏釋疑",
                                                 "children": [
                                                   {
                                                     "text": "疑問",
@@ -476,7 +476,7 @@ let judgments = {
                                             "text": "用熏",
                                             "children": [
                                               {
-                                                "text": "略標",
+                                                "text": "略標用熏",
                                                 "id": 113
                                               },
                                               {

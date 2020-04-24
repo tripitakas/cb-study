@@ -856,7 +856,7 @@
   });
   $judgments.on('changed.jstree', function (e, data) {
     // convertToSpanWithTag('judg', data.node.id, data.node.text);
-    highlightJudg(data.node.id);
+    highlightJudg(data.node.id, true);
   });
 
   $('#show-left-bar').click(() => {

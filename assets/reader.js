@@ -155,9 +155,9 @@ $('#show-inline-judg').click(() => {
   });
 });
 
-function highlightJudg(judgId) {
+function highlightJudg(judgId, scroll) {
   const tree = $.jstree.reference('#judgments');
-  const $s = $('[judg="' + judgId + '"]');
+  let $s = $('[judg="' + judgId + '"]');
 
   $s.addClass('highlight');
   setTimeout(() => {
@@ -165,14 +165,30 @@ function highlightJudg(judgId) {
   }, 1000);
 
   const nodes = tree.get_children_dom(judgId);
-  for (let node of nodes.get()) {
-    highlightJudg(node.getAttribute('id'));
+  if (nodes) {
+    for (let node of nodes.get()) {
+      let r = highlightJudg(node.getAttribute('id'));
+      $s = $s[0] ? $s : r;
+    }
   }
+
+  if (scroll && $s[0]) {
+    const box = $s[0].getBoundingClientRect();
+    let st = document.body.scrollTop, h = document.body.clientHeight;
+
+    if (box.y < 100 || box.y + box.height + 200 > h) {
+      st += box.y < 100 ? box.y - 100 : box.y + box.height + 200 - h;
+      $('html,body').animate({scrollTop: st}, 500);
+    }
+  }
+
+  return $s;
 }
 
 $(document).on('mouseenter', '[judg]', function (e) {
   const tree = $.jstree.reference('#judgments');
-  const judgId = e.target.getAttribute('judg');
+  const el = e.target;
+  const judgId = el.getAttribute('judg') || el.parentElement.getAttribute('judg');
   const node = tree.get_node(judgId);
   let texts = [];
 
@@ -190,5 +206,6 @@ $(document).on('mouseenter', '[judg]', function (e) {
 });
 
 $(document).on('click', '[judg]', function (e) {
-  highlightJudg(e.target.getAttribute('judg'));
+  const el = e.target;
+  highlightJudg(el.getAttribute('judg') || el.parentElement.getAttribute('judg'));
 });
