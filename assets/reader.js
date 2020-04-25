@@ -52,12 +52,12 @@ $('#show-both').click(() => {
 });
 
 
-let fontSize = 16;
+let fontSize = 17;
 
 $('#enlarge-font').click(() => {
   if (fontSize < 36) {
     fontSize++;
-    $('body').css('font-size', fontSize + 'px');
+    $('#content, #merged').css('font-size', fontSize + 'px');
   }
 });
 
@@ -142,6 +142,7 @@ $('#show-inline-judg').click(() => {
   const tree = $.jstree.reference('#judgments');
 
   $('body').toggleClass('show-inline-judg');
+  $('body').removeClass('hide-judg-txt');
   $('span[judg]').each((i, s) => {
     let $s = $(s), $j = $s.find('.judg-text');
 
@@ -155,24 +156,36 @@ $('#show-inline-judg').click(() => {
   });
 });
 
-function highlightJudg(judgId, scroll) {
+$('#show-inline-no-judg').click(() => {
+  $('#show-inline-judg').click();
+  $('body').addClass('hide-judg-txt');
+});
+
+function highlightJudg(judgId, scroll, level) {
   const tree = $.jstree.reference('#judgments');
   let $s = $('[judg="' + judgId + '"]');
 
   $s.addClass('highlight');
-  setTimeout(() => {
-    $s.removeClass('highlight');
-  }, 1000);
+  if ($s[0]) {
+    setTimeout(() => {
+      $s.removeClass('highlight');
+    }, 1000);
+  }
+
+  if (!level) {
+    $('[judg]').removeClass('active');
+  }
+  $s.addClass('active');
 
   const nodes = tree.get_children_dom(judgId);
   if (nodes) {
     for (let node of nodes.get()) {
-      let r = highlightJudg(node.getAttribute('id'));
+      let r = highlightJudg(node.getAttribute('id'), false, (level || 0) + 1);
       $s = $s[0] ? $s : r;
     }
   }
 
-  if (scroll && $s[0]) {
+  if (scroll && scroll !== 'click' && $s[0]) {
     const box = $s[0].getBoundingClientRect();
     let st = document.body.scrollTop, h = document.body.clientHeight;
 
@@ -181,14 +194,19 @@ function highlightJudg(judgId, scroll) {
       $('html,body').animate({scrollTop: st}, 500);
     }
   }
+  if (scroll && scroll !== 'nav') {
+    if (scroll !== 2) {  // footer
+      showJudgPath(judgId);
+    }
+    tree.deselect_all(true);
+    tree.select_node(judgId, true);
+  }
 
   return $s;
 }
 
-$(document).on('mouseenter', '[judg]', function (e) {
+function showJudgPath(judgId) {
   const tree = $.jstree.reference('#judgments');
-  const el = e.target;
-  const judgId = el.getAttribute('judg') || el.parentElement.getAttribute('judg');
   const node = tree.get_node(judgId);
   let texts = [];
 
@@ -196,16 +214,28 @@ $(document).on('mouseenter', '[judg]', function (e) {
     for (let p of node.parents) {
       let t = tree.get_node(p).text;
       if (t) {
-        texts.splice(0, 0, t);
+        texts.splice(0, 0, '<a onclick="highlightJudg(' + p + ',2)">' + t + '</a>');
       }
     }
-    texts.push(node.text);
+    texts.push('<a onclick="highlightJudg(' + judgId + ',2)">' + node.text + '</a>');
   }
 
-  $('.judg-path').text(texts.join(' / '));
+  $('.judg-path').html(texts.join(' / '));
+}
+
+$(document).on('mouseenter', '[judg]', function (e) {
+  const el = e.target;
+  showJudgPath(el.getAttribute('judg') || el.parentElement.getAttribute('judg'));
+});
+
+$(document).on('mouseleave', '[judg]', function (e) {
+  let judgId = $('[judg].active').attr('judg');
+  if (judgId) {
+    showJudgPath(judgId);
+  }
 });
 
 $(document).on('click', '[judg]', function (e) {
   const el = e.target;
-  highlightJudg(el.getAttribute('judg') || el.parentElement.getAttribute('judg'));
+  highlightJudg(el.getAttribute('judg') || el.parentElement.getAttribute('judg'), 'click');
 });

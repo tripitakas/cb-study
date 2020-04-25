@@ -4,17 +4,8 @@
   <title>大乘起信論(对照)</title>
   <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css"/>
   <link rel="stylesheet" href="assets/jstree/jstree.min.css"/>
-  <link href="assets/cb.css?v=423" rel="stylesheet"/>
+  <link href="assets/cb.css?v=424" rel="stylesheet"/>
   <style>
-    footer {
-      position: fixed;
-      bottom: 0;
-      height: 40px;
-      width: 100%;
-      padding: 4px;
-      border-top: 1px solid #eee;
-      background-color: rgb(249, 249, 249);
-    }
     @media screen {
       body {
         padding-bottom: 50px;
@@ -23,40 +14,6 @@
       #content {
         padding-left: 256px;
       }
-    }
-
-    span[judg] {
-      margin-right: .7em;
-    }
-    span[judg] > .judg-text {
-      font-size: .6em;
-      color: #777;
-    }
-    .show-inline-judg :not(.juan) > span[judg] {
-      margin-right: 0;
-      display: block;
-    }
-    .show-inline-judg .row p {
-      margin-bottom: .5em;
-    }
-    .highlight {
-      color: green;
-      font-weight: 700;
-    }
-
-    .left-nav {
-      position: fixed;
-      left: 0;
-      top: 50px;
-      width: 240px;
-      height: calc(100% - 90px);
-      overflow: auto;
-    }
-    .hide-left-bar .left-nav {
-      display: none;
-    }
-    .hide-left-bar #content {
-      padding-left: 15px;
     }
   </style>
 </head>
@@ -84,8 +41,9 @@
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
              aria-expanded="false">显示 <span class="caret"></a>
           <ul class="dropdown-menu">
-            <li><a href="#" id="show-left-bar">科判导航</a></li>
-            <li><a href="#" id="show-inline-judg">科判内文</a></li>
+            <li><a href="#" id="show-left-bar" title="切换显隐左侧科判导航栏">科判导航</a></li>
+            <li><a href="#" id="show-inline-judg" title="切换显隐正文内的科判标记，段内各项分行显示">科判内文，显示标记</a></li>
+            <li><a href="#" id="show-inline-no-judg" title="段内各项分行显示，不显示科判标记">科判内文，隐藏标记</a></li>
             <li><a href="#" id="show-xu" title="切换序言是否显示">序</a></li>
             <li role="separator" class="divider"></li>
             <li><a href="#" id="enlarge-font" title="增加正文字号">增加字号</a></li>
@@ -211,34 +169,34 @@
       <p id="p9"><span judg="3">初說因緣分。</span></p>
       <p id="p10"><span judg="15">問曰：有何因緣而造此論？</span></p>
       <p id="p11">
-        <span judg="15">答曰：是因緣有八種。云何為八？一者、因緣總相，所謂為令眾生離一切苦得究竟樂，非求世間名利恭敬故。二者、為欲解釋如來根本之義，令諸眾生正解不謬故。三者、為令善根成熟眾生於摩訶衍法堪任不退信故。四者、為令善根微少眾生修習信心故。五者、為示方便消惡業障善護其心，遠離癡慢出邪網故。六者、為示修習止觀，對治凡夫二乘心過故。七者、為示專念方便，生於佛前必定不退信心故。八者、為示利益勸修行故。有如是等因緣，所以造論。</span></p>
+        <span judg="15">答曰：是因緣有八種。云何為八？</span><span judg="15">一者、因緣總相，所謂為令眾生離一切苦得究竟樂，非求世間名利恭敬故。</span><span judg="15">二者、為欲解釋如來根本之義，令諸眾生正解不謬故。</span><span judg="15">三者、為令善根成熟眾生於摩訶衍法堪任不退信故。</span><span judg="15">四者、為令善根微少眾生修習信心故。</span><span judg="15">五者、為示方便消惡業障善護其心，遠離癡慢出邪網故。</span><span judg="15">六者、為示修習止觀，對治凡夫二乘心過故。</span><span judg="15">七者、為示專念方便，生於佛前必定不退信心故。</span><span judg="15">八者、為示利益勸修行故。有如是等因緣，所以造論。</span></p>
     </div>
     <div class="cell-r col-xs-6">
       <p id="p81" class="fix-lf">
-        <span judg="15">此中作因有八，一總相，為令眾生離苦得樂，不為貪求利養等故。二為顯如來根本實義，令諸眾生生正解故。三為令善根成熟眾生不退信心，於大乘法有堪任故。四為令善根微少眾生，發起信心至不退故。五為令眾生消除業障，調伏自心離三毒故。六為令眾生修正止觀，對治凡小過失心故。七為令眾生於大乘法如理思惟，得生佛前究竟不退大乘信故。八為顯信樂大乘利益，勸諸含識令歸向故。</span></p>
+        <span judg="15">此中作因有八，</span><span judg="15">一總相，為令眾生離苦得樂，不為貪求利養等故。</span><span judg="15">二為顯如來根本實義，令諸眾生生正解故。</span><span judg="15">三為令善根成熟眾生不退信心，於大乘法有堪任故。</span><span judg="15">四為令善根微少眾生，發起信心至不退故。</span><span judg="15">五為令眾生消除業障，調伏自心離三毒故。</span><span judg="15">六為令眾生修正止觀，對治凡小過失心故。</span><span judg="15">七為令眾生於大乘法如理思惟，得生佛前究竟不退大乘信故。</span><span judg="15">八為顯信樂大乘利益，勸諸含識令歸向故。</span></p>
     </div>
   </div>
   <div class="row">
     <div class="col-xs-6 cell-l">
       <p id="p12"><span judg="17">問曰：修多羅中具有此法，何須重說？</span></p>
       <p id="p13">
-        <span judg="17">答曰：修多羅中雖有此法，以眾生根行不等、受解緣別。所謂如來在世眾生利根，能說之人色心業勝，圓音一演異類等解，則不須論。若如來滅後，或有眾生能以自力廣聞而取解者；或有眾生亦以自力少聞而多解者；或有眾生無自心力因於廣論而得解者；自有眾生復以廣論文多為煩，心樂總持少文而攝多義能取解者。</span><span judg="18">如是此論，為欲總攝如來廣大深法無邊義故，應說此論。</span></p>
+        <span judg="17">答曰：修多羅中雖有此法，以眾生根行不等、受解緣別。</span><span judg="17">所謂如來在世眾生利根，能說之人色心業勝，圓音一演異類等解，則不須論。</span><span judg="17">若如來滅後，或有眾生能以自力廣聞而取解者；</span><span judg="17">或有眾生亦以自力少聞而多解者；</span><span judg="17">或有眾生無自心力因於廣論而得解者；</span><span judg="17">自有眾生復以廣論文多為煩，心樂總持少文而攝多義能取解者。</span><span judg="18">如是此論，為欲總攝如來廣大深法無邊義故，應說此論。</span></p>
       <p id="p14"><span judg="3">已說因緣分。</span></p>
     </div>
     <div class="cell-r col-xs-6">
       <p id="p82" class="fix-lf">
-        <span judg="17">此諸句義，大乘經中雖已具有，然由所化根欲不同、待悟緣別，是故造論。</span><span judg="17">此復云何？謂如來在世所化利根，佛色心勝，一音開演無邊義味，故不須論。佛涅槃後，或有能以自力，少見於經而解多義；復有能以自力，廣見諸經乃生正解；或有自無智力，因他廣論而得解義；亦有自無智力，怖於廣說、樂聞略論攝廣大義而正修行。</span><span judg="18">我今為彼最後人故，略攝如來最勝甚深無邊之義，而造此論。</span></p>
+        <span judg="17">此諸句義，大乘經中雖已具有，然由所化根欲不同、待悟緣別，是故造論。</span><span judg="17">此復云何？謂如來在世所化利根，佛色心勝，一音開演無邊義味，故不須論。</span><span judg="17">佛涅槃後，或有能以自力，少見於經而解多義；</span><span judg="17">復有能以自力，廣見諸經乃生正解；</span><span judg="17">或有自無智力，因他廣論而得解義；</span><span judg="17">亦有自無智力，怖於廣說、樂聞略論攝廣大義而正修行。</span><span judg="18">我今為彼最後人故，略攝如來最勝甚深無邊之義，而造此論。</span></p>
     </div>
   </div>
   <div class="row">
     <div class="col-xs-6 cell-l">
       <p id="p15"><span judg="4">次說立義分。</span></p>
       <p id="p16">
-        <span judg="19">摩訶衍者，總說有二種。云何為二？一者、法，二者、義。</span><span judg="20">所言法者，謂眾生心，是心則攝一切世間法、出世間法。依於此心顯示摩訶衍義。</span><span judg="22">何以故？是心真如相，即示摩訶衍體故；</span><span judg="23">是心生滅因緣相，能示摩訶衍自體相用故。</span><span judg="24">所言義者，則有三種。云何為三？一者、體大，謂一切法真如平等不增減故。二者、相大，謂如來藏具足無量性功德故。三者、用大，能生一切世間、出世間善因果故。</span><span judg="25">一切諸佛本所乘故，一切菩薩皆乘此法到如來地故。已說立義分。</span></p>
+        <span judg="19">摩訶衍者，總說有二種。云何為二？一者、法，二者、義。</span><span judg="20">所言法者，謂眾生心，是心則攝一切世間法、出世間法。依於此心顯示摩訶衍義。</span><span judg="22">何以故？是心真如相，即示摩訶衍體故；</span><span judg="23">是心生滅因緣相，能示摩訶衍自體相用故。</span><span judg="24">所言義者，則有三種。云何為三？</span><span judg="220">一者、體大，謂一切法真如平等不增減故。</span><span judg="221">二者、相大，謂如來藏具足無量性功德故。</span><span judg="222">三者、用大，能生一切世間、出世間善因果故。</span><span judg="25">一切諸佛本所乘故，一切菩薩皆乘此法到如來地故。已說立義分。</span></p>
     </div>
     <div class="cell-r col-xs-6">
       <p id="p83">
-        <span judg="19">云何立義分？謂摩訶衍略有二種，有法及法。</span><span judg="20">言有法者，謂一切眾生心。</span><span judg="20">是心則攝一切世間出世間法，依此顯示摩訶衍義，</span><span judg="22">以此心真如相即示大乘體故，</span><span judg="23">此心生滅因緣相能顯示大乘體相用故。</span><span judg="24">所言法者，略有三種。一體大，謂一切法真如，在染在淨性恒平等，無增無減無別異故。二者相大，謂如來藏本求具足無量無邊性功德故。三者用大，能生一切世出世間善因果故，</span><span judg="25">一切諸佛本所乘故，一切菩薩皆乘於此入佛地故。</span></p>
+        <span judg="19">云何立義分？謂摩訶衍略有二種，有法及法。</span><span judg="20">言有法者，謂一切眾生心。是心則攝一切世間出世間法，依此顯示摩訶衍義，</span><span judg="22">以此心真如相即示大乘體故，</span><span judg="23">此心生滅因緣相能顯示大乘體相用故。</span><span judg="24">所言法者，略有三種。</span><span judg="220">一體大，謂一切法真如，在染在淨性恒平等，無增無減無別異故。</span><span judg="221">二者相大，謂如來藏本求具足無量無邊性功德故。</span><span judg="222">三者用大，能生一切世出世間善因果故，</span><span judg="25">一切諸佛本所乘故，一切菩薩皆乘於此入佛地故。</span></p>
     </div>
   </div>
   <div class="row">
@@ -844,8 +802,8 @@
 <script src="assets/jquery.min.js"></script>
 <script src="assets/bootstrap/js/bootstrap.min.js"></script>
 <script src="assets/jstree/jstree.js"></script>
-<script src="assets/T1666.json.js?v=42305"></script>
-<script src="assets/reader.js?v=42305"></script>
+<script src="assets/T1666.json.js?v=424"></script>
+<script src="assets/reader.js?v=424"></script>
 <script>
   let $judgments = $('#judgments');
 
@@ -856,7 +814,7 @@
   });
   $judgments.on('changed.jstree', function (e, data) {
     // convertToSpanWithTag('judg', data.node.id, data.node.text);
-    highlightJudg(data.node.id, true);
+    highlightJudg(data.node.id, 'nav');
   });
 
   $('#show-left-bar').click(() => {

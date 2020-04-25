@@ -71,7 +71,7 @@ let judgments = {
             "id": 19
           },
           {
-            "text": "法（唐:有法）",
+            "text": "大乘法體",
             "id": 20,
             "children": [
               {
@@ -85,11 +85,25 @@ let judgments = {
             ]
           },
           {
-            "text": "義（唐:法）",
+            "text": "大乘名義",
             "children": [
               {
                 "text": "大(約法)",
-                "id": 24
+                "id": 24,
+                "children": [
+                  {
+                    "text": "体大",
+                    "id": 220
+                  },
+                  {
+                    "text": "相大",
+                    "id": 221
+                  },
+                  {
+                    "text": "用大",
+                    "id": 222
+                  }
+                ]
               },
               {
                 "text": "乘(約喻)",
