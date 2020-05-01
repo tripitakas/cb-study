@@ -138,7 +138,7 @@ span[judg] > .judg-text {
   position: fixed;
   left: 0;
   top: 50px;
-  width: 240px;
+  width: 25%;
   height: calc(100% - 90px);
   overflow: auto;
 }

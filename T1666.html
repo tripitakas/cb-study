@@ -12,7 +12,7 @@
         padding-top: 60px;
       }
       #content {
-        padding-left: 256px;
+        padding-left: 25%;
       }
     }
   </style>
@@ -39,7 +39,7 @@
         <li class="active"><a href="#">大乘起信論</a></li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-             aria-expanded="false">显示 <span class="caret"></a>
+             aria-expanded="false">显示 <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a href="#" id="show-left-bar" title="切换显隐左侧科判导航栏">科判导航</a></li>
             <li><a href="#" id="show-inline-judg" title="切换显隐正文内的科判标记，段内各项分行显示">科判内文，显示标记</a></li>
@@ -61,7 +61,7 @@
 
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-             aria-expanded="false">CB原文 <span class="caret"></a>
+             aria-expanded="false">CB原文 <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a href="http://cbetaonline.cn/zh/T32n1666" target="_blank">大乘起信論（1卷，梁 真諦譯，553）</a></li>
             <li><a href="http://cbetaonline.cn/zh/T32n1667" target="_blank">大乘起信論（2卷，唐 實叉難陀譯，695~704）</a></li>
@@ -79,6 +79,17 @@
             <li><a href="http://cbetaonline.cn/zh/X45n0767" target="_blank">起信論疏記會閱 卷首（清 續法會編，1644~1911，2卷）</a></li>
             <li role="separator" class="divider"></li>
             <li><a href="http://cbetaonline.cn/zh/T1668_001" target="_blank">釋摩訶衍論（龍樹菩薩造，姚秦 筏提摩多譯，384~417，10卷）</a></li>
+          </ul>
+        </li>
+
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+             aria-expanded="false">科判比例 <span class="caret"></span></a>
+          <ul class="dropdown-menu kepan-ratio">
+            <li><a>25%</a></li>
+            <li><a>50%</a></li>
+            <li><a>75%</a></li>
+            <li><a>100%</a></li>
           </ul>
         </li>
       </ul>
@@ -842,6 +853,12 @@
 
   $('#show-left-bar').click(() => {
     $('body').toggleClass('hide-left-bar');
+  });
+
+  $('.kepan-ratio a').on('click',function () {
+    let ratio = $(this).text();
+    $('.left-nav').css('width', ratio);
+    $('#content').css('padding-left', ratio);
   });
 </script>
 </body>
