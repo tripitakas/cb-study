@@ -64,7 +64,7 @@ $('#enlarge-font').click(() => {
 $('#reduce-font').click(() => {
   if (fontSize > 8) {
     fontSize--;
-    $('body').css('font-size', fontSize + 'px');
+    $('#content, #merged').css('font-size', fontSize + 'px');
   }
 });
 
@@ -238,4 +238,32 @@ $(document).on('mouseleave', '[judg]', function (e) {
 $(document).on('click', '[judg]', function (e) {
   const el = e.target;
   highlightJudg(el.getAttribute('judg') || el.parentElement.getAttribute('judg'), 'click');
+});
+
+
+$('.kepan-ratio a').on('click',function () {
+  let ratio = $(this).text();
+  if (parseInt(ratio) > 0) {
+    $('body').removeClass('hide-left-bar');
+    $('.left-nav').css('width', ratio);
+    $('#content').css('padding-left', ratio);
+  } else {
+    $('body').addClass('hide-left-bar');
+  }
+});
+
+let fontSizeKepan = 14;
+
+$('#enlarge-kepan-font').click(() => {
+  if (fontSizeKepan < 24) {
+    fontSizeKepan += 2;
+    $('#judgments').css('font-size', fontSizeKepan + 'px');
+  }
+});
+
+$('#reduce-kepan-font').click(() => {
+  if (fontSizeKepan > 10) {
+    fontSizeKepan -= 2;
+    $('#judgments').css('font-size', fontSizeKepan + 'px');
+  }
 });

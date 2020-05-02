@@ -42,8 +42,6 @@
              aria-expanded="false">显示 <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a href="#" id="show-left-bar" title="切换显隐左侧科判导航栏">科判导航</a></li>
-            <li><a href="#" id="show-inline-judg" title="切换显隐正文内的科判标记，段内各项分行显示">科判内文，显示标记</a></li>
-            <li><a href="#" id="show-inline-no-judg" title="段内各项分行显示，不显示科判标记">科判内文，隐藏标记</a></li>
             <li><a href="#" id="show-xu" title="切换序言是否显示">序</a></li>
             <li role="separator" class="divider"></li>
             <li><a href="#" id="enlarge-font" title="增加正文字号">增加字号</a></li>
@@ -79,17 +77,26 @@
             <li><a href="http://cbetaonline.cn/zh/X45n0767" target="_blank">起信論疏記會閱 卷首（清 續法會編，1644~1911，2卷）</a></li>
             <li role="separator" class="divider"></li>
             <li><a href="http://cbetaonline.cn/zh/T1668_001" target="_blank">釋摩訶衍論（龍樹菩薩造，姚秦 筏提摩多譯，384~417，10卷）</a></li>
+            <li><a href="http://cbetaonline.cn/zh/T0366_001" target="_blank">馬鳴菩薩傳（後秦 三藏鳩摩羅什譯，401~413，1卷）</a></li>
           </ul>
         </li>
 
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
              aria-expanded="false">科判比例 <span class="caret"></span></a>
-          <ul class="dropdown-menu kepan-ratio">
-            <li><a>25%</a></li>
-            <li><a>50%</a></li>
-            <li><a>75%</a></li>
-            <li><a>100%</a></li>
+          <ul class="dropdown-menu">
+            <li class="kepan-ratio"><a>隐藏</a></li>
+            <li class="kepan-ratio"><a>15%</a></li>
+            <li class="kepan-ratio"><a>25%</a></li>
+            <li class="kepan-ratio"><a>50%</a></li>
+            <li class="kepan-ratio"><a>75%</a></li>
+            <li class="kepan-ratio"><a>100%</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#" id="show-inline-judg" title="切换显隐正文内的科判标记，段内各项分行显示">科判内文，显示标记</a></li>
+            <li><a href="#" id="show-inline-no-judg" title="段内各项分行显示，不显示科判标记">科判内文，隐藏标记</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#" id="enlarge-kepan-font" title="增加科判字号">增加字号</a></li>
+            <li><a href="#" id="reduce-kepan-font" title="减少科判字号">减少字号</a></li>
           </ul>
         </li>
       </ul>
@@ -837,7 +844,7 @@
 <script src="assets/bootstrap/js/bootstrap.min.js"></script>
 <script src="assets/jstree/jstree.js"></script>
 <script src="assets/T1666.json.js?v=424"></script>
-<script src="assets/reader.js?v=424"></script>
+<script src="assets/reader.js?v=502"></script>
 <script>
   let $judgments = $('#judgments');
 
@@ -853,12 +860,6 @@
 
   $('#show-left-bar').click(() => {
     $('body').toggleClass('hide-left-bar');
-  });
-
-  $('.kepan-ratio a').on('click',function () {
-    let ratio = $(this).text();
-    $('.left-nav').css('width', ratio);
-    $('#content').css('padding-left', ratio);
   });
 </script>
 </body>
