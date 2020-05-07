@@ -1,26 +1,21 @@
+// 显隐行号
 $('#show-line-no').click(() => {
-  $('p').each((i, p) => {
+  $('p, .lg').each((i, p) => {
     const $p = $(p);
     if ($p.find('.line-no').length) {
       $p.find('.line-no').remove();
     } else {
-      $p.prepend($('<span class="line-no">[' + $p.attr('id').substring(1) + ']</span>'));
-    }
-  });
-  $('.lg').each((i, p) => {
-    const $p = $(p);
-    if ($p.find('.line-no').length) {
-      $p.find('.line-no').remove();
-    } else {
-      $p.prepend($('<span class="line-no">[' + $p.attr('id') + ']</span>'));
+      $p.prepend($('<span class="line-no">[' + $p.attr('id').replace(/^p/, '') + ']</span>'));
     }
   });
 });
 
+// 显隐序言
 $('#show-xu').click(() => {
   $('.div-xu').toggle();
 });
 
+// 显隐段落和span框，用于调试科判分布
 $('#show-box').click(() => {
   $('body').toggleClass('show-box');
 });
@@ -29,6 +24,7 @@ $('#show-hide-txt').click(() => {
   $('body').toggleClass('show-hide-txt');
 });
 
+// 显示左边文
 $('#show-left').click(() => {
   let $left = $('.cell-l'), $right = $('.cell-r');
   $left.removeClass('col-xs-6');
@@ -36,6 +32,7 @@ $('#show-left').click(() => {
   $right.hide();
 });
 
+// 显示右边文
 $('#show-right').click(() => {
   let $left = $('.cell-l'), $right = $('.cell-r');
   $right.removeClass('col-xs-6');
@@ -43,6 +40,7 @@ $('#show-right').click(() => {
   $left.hide();
 });
 
+// 显示左右对照文
 $('#show-both').click(() => {
   let $left = $('.cell-l'), $right = $('.cell-r');
   $left.addClass('col-xs-6');
@@ -51,40 +49,43 @@ $('#show-both').click(() => {
   $right.show();
 });
 
-
-let fontSize = 17;
-
+// 正文增大字号
 $('#enlarge-font').click(() => {
+  let fontSize = parseInt($('#content').css('font-size'));
   if (fontSize < 36) {
     fontSize++;
     $('#content, #merged').css('font-size', fontSize + 'px');
   }
 });
 
+// 正文减小字号
 $('#reduce-font').click(() => {
+  let fontSize = parseInt($('#content').css('font-size'));
   if (fontSize > 8) {
     fontSize--;
     $('#content, #merged').css('font-size', fontSize + 'px');
   }
 });
 
-function toSelId(s) {
-  if (s) {
+// 将多个段落编号的串转换为选择器数组
+function toPairSelectors(idsText) {
+  return idsText.split(' ').filter(s => s).map(s => {
     if (s[0] !== '.' && s[0] !== '#') {
       if (/^\d/.test(s)) {
         s = 'p' + s;
       }
       s = '#' + s;
     }
-  }
-  return s;
+    return s;
+  });
 }
 
+// 将一行编号（格式为“ id id... | id...”）的段落元素移到#merged的左右对照元素内
 function movePairs(ids) {
   const $article1 = $('.original#body-left'),
       $article2 = $('.original#body-right'),
-      ids1 = (ids.split('|')[0] || '').split(' ').map(toSelId).filter(function (s) { return s; }),
-      ids2 = (ids.split('|')[1] || '').split(' ').map(toSelId).filter(function (s) { return s; }),
+      ids1 = toPairSelectors(ids.split('|')[0] || ''),
+      ids2 = toPairSelectors(ids.split('|')[1] || ''),
       $row = $('<div class="row"><div class="col-xs-6 cell-l"/><div class="col-xs-6 cell-r"/></div>'),
       $left = $row.find('.cell-l'), $right = $row.find('.cell-r');
   let count = 0;
@@ -93,7 +94,7 @@ function movePairs(ids) {
     return;
   }
   for (let id of ids1) {
-    let id2 = id.replace(/-$/, ''), el = $article1.find(id2);
+    let id2 = id.replace(/-$/, ''), el = $article1.find(id2); // 编号末尾有减号表示转为隐藏文本
     console.assert(el.length, id2 + ' not found: ' + ids);
     if (el.length) {
       el.remove();
@@ -124,6 +125,7 @@ function movePairs(ids) {
   $('#merged').append($row);
 }
 
+// 单击科判节点后将当前选中文本提取为一个span，并设置其科判编号
 function convertToSpanWithTag(tag, value, text) {
   let sel = window.getSelection(),  // 选中范围，非IE
       node = sel.anchorNode,  // 选择区的起点对象，要与结束对象focusNode相同，且为P内不属于span的普通文字
@@ -138,6 +140,7 @@ function convertToSpanWithTag(tag, value, text) {
   }
 }
 
+// 切换显隐正文内的科判标记，段内各项分行显示
 $('#show-inline-judg').click(() => {
   const tree = $.jstree.reference('#judgments');
 
@@ -150,17 +153,21 @@ $('#show-inline-judg').click(() => {
       $j.remove();
     } else {
       const node = tree.get_node($s.attr('judg'));
-      $j = $('<span class="judg-text">[' + node.text.replace(/^.+、|[(（].+$/g, '') + ']</span>');
-      $s.append($j);
+      if (node) {
+        $j = $('<span class="judg-text">[' + node.text.replace(/^.+、|[(（].+$/g, '') + ']</span>');
+        $s.append($j);
+      }
     }
   });
 });
 
+// 段内各项分行显示，不显示科判标记
 $('#show-inline-no-judg').click(() => {
   $('#show-inline-judg').click();
   $('body').addClass('hide-judg-txt');
 });
 
+// 高亮显示科判节点对应的正文span片段
 function highlightJudg(judgId, scroll, level) {
   const tree = $.jstree.reference('#judgments');
   let $s = $('[judg="' + judgId + '"]');
@@ -205,6 +212,7 @@ function highlightJudg(judgId, scroll, level) {
   return $s;
 }
 
+// 在状态栏显示科判路径
 function showJudgPath(judgId) {
   const tree = $.jstree.reference('#judgments');
   const node = tree.get_node(judgId);
@@ -223,11 +231,20 @@ function showJudgPath(judgId) {
   $('.judg-path').html(texts.join(' / '));
 }
 
+function getJudgId(el) {
+  for (let i = 0; i < 3 && el; i++, el = el.parentElement) {
+    if (el.getAttribute('judg')) {
+      return el.getAttribute('judg');
+    }
+  }
+}
+
+// 在正文有科判标记的span上鼠标滑入
 $(document).on('mouseenter', '[judg]', function (e) {
-  const el = e.target;
-  showJudgPath(el.getAttribute('judg') || el.parentElement.getAttribute('judg'));
+  showJudgPath(getJudgId(e.target));
 });
 
+// 在正文有科判标记的span上鼠标滑出
 $(document).on('mouseleave', '[judg]', function (e) {
   let judgId = $('[judg].active').attr('judg');
   if (judgId) {
@@ -235,12 +252,13 @@ $(document).on('mouseleave', '[judg]', function (e) {
   }
 });
 
+// 在正文有科判标记的span上点击
 $(document).on('click', '[judg]', function (e) {
-  const el = e.target;
-  highlightJudg(el.getAttribute('judg') || el.parentElement.getAttribute('judg'), 'click');
+  highlightJudg(getJudgId(e.target), 'click');
 });
 
 
+// 科判导航栏的宽度比例
 $('.kepan-ratio a').on('click',function () {
   let ratio = $(this).text();
   if (parseInt(ratio) > 0) {
@@ -249,21 +267,24 @@ $('.kepan-ratio a').on('click',function () {
     $('#content').css('padding-left', ratio);
   } else {
     $('body').addClass('hide-left-bar');
+    $('#content').css('padding-left', 0);
   }
 });
 
-let fontSizeKepan = 14;
-
+// 增加科判树的字号
 $('#enlarge-kepan-font').click(() => {
-  if (fontSizeKepan < 24) {
-    fontSizeKepan += 2;
-    $('#judgments').css('font-size', fontSizeKepan + 'px');
+  let $j = $('#judgments'), fontSize = parseInt($j.css('font-size'));
+  if (fontSize < 24) {
+    fontSize += 2;
+    $j.css('font-size', fontSize + 'px');
   }
 });
 
+// 减小科判树的字号
 $('#reduce-kepan-font').click(() => {
-  if (fontSizeKepan > 10) {
-    fontSizeKepan -= 2;
-    $('#judgments').css('font-size', fontSizeKepan + 'px');
+  let $j = $('#judgments'), fontSize = parseInt($j.css('font-size'));
+  if (fontSize > 10) {
+    fontSize -= 2;
+    $j.css('font-size', fontSize + 'px');
   }
 });
