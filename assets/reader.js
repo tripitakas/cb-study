@@ -30,6 +30,7 @@ $('#show-left').click(() => {
   $left.removeClass('col-xs-6');
   $left.show();
   $right.hide();
+  $left.parent().parent().addClass('single-article');
 });
 
 // 显示右边文
@@ -38,6 +39,7 @@ $('#show-right').click(() => {
   $right.removeClass('col-xs-6');
   $right.show();
   $left.hide();
+  $left.parent().parent().addClass('single-article');
 });
 
 // 显示左右对照文
@@ -47,6 +49,7 @@ $('#show-both').click(() => {
   $right.addClass('col-xs-6');
   $left.show();
   $right.show();
+  $left.parent().parent().removeClass('single-article');
 });
 
 // 正文增大字号

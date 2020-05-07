@@ -12,7 +12,7 @@ let judgments = {
             "text": "偈頌",
             "children": [
               {
-                "text": "歸憑三寶",
+                "text": "歸敬三寶",
                 "id": 11
               },
               {
