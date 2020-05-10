@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>{{title}}</title>
+  <style>{% include tool/proofread.css %}</style>
+  <style>
+    .html-text .same { color: #999;}
+    .html-text .line span.same {font-size: 14px;}
+    .empty-place { display: none; }
+  </style>
+</head>
+
+<body>
+<div class="html-text">
+  {% for k, line in segments %}
+  <p class="line{{'' if len(line) else ' empty-line'}}" id="line-{{k}}">
+    {% for s in line %}
+    {% set selected = ' selected' if s.get('selected') else '' %}
+    {% set empty_place = '' if s.get('base') else ' empty-place' %}
+    {% set is_same = 'same is_variant' if s.get('is_variant') else 'same' if s.get('is_same') else ' diff' %}
+    {% set fields = [field for field in ['base', 'cmp1', 'cmp2', 'cmp3', 'offset', 'utf8mb4'] if field in s] %}
+    <span class="{{is_same}}{{selected}}{{empty_place}}"
+          {% if not s.get('is_same') %}
+          title="{{'\n'.join(['%s=%s' % (label[f], s[f]) for f in ['base', 'cmp1', 'cmp2', 'cmp3'] if f in s])}}"
+          {% end %}
+          {% for field in fields %}
+          {{field}}="{{s[field]}}"
+          {% end %}
+    >{% if not s.get('is_same') %}
+    {{' '.join('%s【%s】' % (s[f] or '<空>', label[f]) for f in ['base', 'cmp1', 'cmp2', 'cmp3'] if f in s)}}
+    {% else %}
+    {{s['base']}}
+    {% end %}</span>
+    {% end %}
+  </p>
+  {% end %}
+</div>
+</body>
+</html>
