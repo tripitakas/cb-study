@@ -4,7 +4,7 @@
   <title>大乘起信論(对照)</title>
   <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css"/>
   <link rel="stylesheet" href="assets/jstree/jstree.min.css"/>
-  <link href="assets/cb.css?v=521" rel="stylesheet"/>
+  <link href="assets/cb.css?v=5212" rel="stylesheet"/>
   <style>
     @media screen {
       body {
@@ -844,8 +844,8 @@
 <script src="assets/jquery.min.js"></script>
 <script src="assets/bootstrap/js/bootstrap.min.js"></script>
 <script src="assets/jstree/jstree.js"></script>
-<script src="assets/T1666.json.js?v=521"></script>
-<script src="assets/reader.js?v=521"></script>
+<script src="assets/T1666.json.js?v=5212"></script>
+<script src="assets/reader.js?v=5212"></script>
 <script>
   let $judgments = $('#judgments');
 
@@ -858,6 +858,10 @@
     // convertToSpanWithTag('judg', data.node.id, data.node.text);
     highlightJudg(data.node.id, 'nav');
   });
+
+  setTimeout(function () {
+    $('#show-inline-no-judg').click();
+  }, 200);
 </script>
 </body>
 </html>
