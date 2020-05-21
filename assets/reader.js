@@ -173,7 +173,7 @@ $('#show-inline-no-judg').click(() => {
 // 高亮显示科判节点对应的正文span片段
 function highlightJudg(judgId, scroll, level) {
   const tree = $.jstree.reference('#judgments');
-  let $s = $('[judg="' + judgId + '"]');
+  let $s = $('[judg="' + judgId + '"], [judg^="' + judgId + 'p"]');
 
   $s.addClass('highlight');
   if ($s[0]) {
@@ -184,6 +184,7 @@ function highlightJudg(judgId, scroll, level) {
 
   if (!level) {
     $('[judg]').removeClass('active');
+    $('[judg]').removeClass('hover');
   }
   $s.addClass('active');
 
@@ -237,10 +238,38 @@ function showJudgPath(judgId) {
 function getJudgId(el) {
   for (let i = 0; i < 3 && el; i++, el = el.parentElement) {
     if (el.getAttribute('judg')) {
-      return el.getAttribute('judg');
+      return parseInt(el.getAttribute('judg'));
     }
   }
 }
+
+// 在正文有科判标记的span上鼠标掠过
+$(document).on('mouseover', '[judg]', function (e) {
+  let judgId = getJudgId(e.target),
+      tree = $.jstree.reference('#judgments'),
+      node = tree.get_node(judgId),
+      sel = 'span[judg="' + judgId + '"]',
+      spans = $(sel),
+      row = $(e.target).closest('.row');
+
+  $('.hover').removeClass('hover');
+  if (spans.length % 2 === 0 && node && tree.get_children_dom(node).length < 1) {
+    let leftSpans = row.find('.cell-l').find(sel),
+        rightSpans = row.find('.cell-r').find(sel);
+    if (leftSpans.length === rightSpans.length) {
+      let leftIndex = leftSpans.get().indexOf(e.target),
+          rightIndex = rightSpans.get().indexOf(e.target);
+      if (leftIndex >= 0) {
+        $(rightSpans[leftIndex]).addClass('hover');
+        $(leftSpans[leftIndex]).addClass('hover');
+      }
+      else if (rightIndex >= 0) {
+        $(leftSpans[rightIndex]).addClass('hover');
+        $(rightSpans[rightIndex]).addClass('hover');
+      }
+    }
+  }
+});
 
 // 在正文有科判标记的span上鼠标滑入
 $(document).on('mouseenter', '[judg]', function (e) {

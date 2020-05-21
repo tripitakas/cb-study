@@ -130,11 +130,15 @@ span[judg] > .judg-text {
   margin-right: 0;
   display: block;
 }
-[judg].active, [judg]:hover, .highlight {
+[judg].active, [judg]:hover, [judg].hover, .highlight {
   color: green;
 }
 [judg].active, .highlight {
   font-weight: 700;
+}
+[judg].hover {
+  color: #008000;
+  text-decoration: underline;
 }
 .show-inline-judg .row p {
   margin-bottom: .5em;
