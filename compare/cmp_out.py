@@ -48,6 +48,8 @@ class MainHandler(RequestHandler):
                 s['base'] = '\n'
             elif is_punctuation(base) and (is_empty(cmp1) or cmp1 == '。'):
                 s['is_same'] = True
+            if s['is_same'] and s['base'] == '。':
+                continue
             if s['is_same'] and s['base'] == '\n':  # 当前为空行，即换行
                 if not pre_empty_line_no:  # 连续空行仅保留第一个
                     add_segment()
@@ -62,7 +64,7 @@ class MainHandler(RequestHandler):
         self.render('index.html', segments=segments, **data)
 
 
-def read_txt(src_file, overwrite):
+def read_txt(src_file, overwrite, fileIndex):
     if src_file.endswith('.html') and 0:
         with open(src_file) as f:
             text = f.read()
@@ -81,21 +83,27 @@ def read_txt(src_file, overwrite):
     text = re.sub('[①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮⑯⑰⑱⑲⑳㉑㉒㉓㉔㉕㉖㉗㉘㉙㉚㉛㉜㉝㉞㉟㊱㊲㊳㊴㊵㊶㊷㊸㊹㊺㊻㊼㊽㊾㊿0-9]', '', text)
     text = re.sub(r'（[甲乙丙丁戊己庚辛壬癸子丑寅卯辰巳午未申酉戌亥]）', '', text)
     text = re.sub(r'[“”‘’「」『』〈〉《》（）]', '', text)
-    # text = re.sub(r'[，、：；。？！]', '', text)
+    if data['ignore_punc']:
+        text = re.sub(r'[，、：；。？！]', '', text)
+    elif fileIndex == 0:
+        text = re.sub(r'[，、：；。？！]', '。', text)
     text = re.sub(r'\n[\t ]+|\n+', r'\n', text, re.M)
     text = re.sub(r'(科判索引|【經文資訊】)(.|\n)+$', '', text, re.M)
     return text
 
 
-def main(title, base_file, second_file, *more_files, label=None, overwrite=False, remove_dup=True, port=8888):
+def main(title, base_file, second_file, *more_files, label=None, overwrite=False,
+         remove_dup=True, ignore_punc=False, port=8888):
+    data['title'] = title
+    data['remove_dup'] = remove_dup
+    data['ignore_punc'] = ignore_punc
+
     files = [base_file, second_file] + list(more_files)
     label = label and label.split(',') or ['base', 'cmp1'] + ['cmp%d' % (i + 2) for i in range(len(more_files))]
     assert not label or len(label) == len(files), 'mismatch label'
     data['label'] = {'cmp%d' % i if i else 'base': t for i, t in enumerate(label)}
-    data['contents'] = ct = {i: read_txt(f, overwrite) for i, f in enumerate(files)}
-    data['diff_segments'] = Diff.diff(ct[0], ct[1], ct.get(2), ct.get(3))[0]
-    data['title'] = title
-    data['remove_dup'] = remove_dup
+    data['contents'] = ct = {i: read_txt(f, overwrite, i) for i, f in enumerate(files)}
+    data['diff_segments'] = segments = Diff.diff(ct[0], ct[1], ct.get(2), ct.get(3))[0]
 
     app = Application([
         ('/', MainHandler),
@@ -109,6 +117,13 @@ def main(title, base_file, second_file, *more_files, label=None, overwrite=False
 
 
 if __name__ == '__main__':
-    main('裂網疏', 'data/裂網疏.docx', 'data/T1850.html', label='慕,CB')
+    # main('裂網疏', 'data/裂網疏.docx', 'data/T1850.html', label='慕,CB')
+    if 0:
+        with open('data/T1850.html') as f:
+            text = f.readlines()
+            text = [re.sub(r'</span>([^　]+)　', lambda m: m.group().replace(m.group(1), '<b class="ori">%s</b>' % m.group(1)), t) for t in text]
+        with open('data/T1850-.html', 'w') as f:
+            f.writelines(text)
+    main('大乘起信論(梁译)', 'data/T1666.html', 'data/T1846.html', label='原,贤', remove_dup=False)
     # import fire
     # fire.Fire(main)

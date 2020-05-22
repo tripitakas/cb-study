@@ -4,10 +4,7 @@
   <meta charset="UTF-8">
   <title>{{title}}</title>
   <style>{% include tool/proofread.css %}</style>
-  <style>
-    .html-text .same { color: #999;}
-    .html-text .line span.same {font-size: 14px;}
-    .empty-place { display: none; }
+  <style>.html-text .same {color: #777;}
   </style>
 </head>
 
@@ -27,7 +24,9 @@
           {% for field in fields %}
           {{field}}="{{s[field]}}"
           {% end %}
-    >{% if not s.get('is_same') %}
+    >{% if (not s['base'] or s['base'] in '，。？：、；') and s['cmp1'] %}
+    <br>{{s['cmp1']}}<br>
+    {% elif not s.get('is_same') %}
     {{' '.join('%s【%s】' % (s[f] or '<空>', label[f]) for f in ['base', 'cmp1', 'cmp2', 'cmp3'] if f in s)}}
     {% else %}
     {{s['base']}}
