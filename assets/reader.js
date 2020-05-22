@@ -143,8 +143,7 @@ function convertToSpanWithTag(tag, value, text) {
   }
 }
 
-// 切换显隐正文内的科判标记，段内各项分行显示
-$('#show-inline-judg').click(() => {
+function showInlineJudgments() {
   const tree = $.jstree.reference('#judgments');
 
   $('body').toggleClass('show-inline-judg');
@@ -162,11 +161,14 @@ $('#show-inline-judg').click(() => {
       }
     }
   });
-});
+}
+
+// 切换显隐正文内的科判标记，段内各项分行显示
+$('#show-inline-judg').click(showInlineJudgments);
 
 // 段内各项分行显示，不显示科判标记
 $('#show-inline-no-judg').click(() => {
-  $('#show-inline-judg').click();
+  showInlineJudgments();
   $('body').addClass('hide-judg-txt');
 });
 
