@@ -322,3 +322,35 @@ $('#reduce-kepan-font').click(() => {
     $j.css('font-size', fontSize + 'px');
   }
 });
+
+$.fn.changeElementType = function(newType) {
+  var newElements = [];
+  $(this).each(function() {
+    var attrs = {};
+    $.each(this.attributes, function(idx, attr) {
+      attrs[attr.nodeName] = attr.nodeValue;
+    });
+    var newElement = $("<" + newType + "/>", attrs).append($(this).contents());
+    $(this).replaceWith(newElement);
+    newElements.push(newElement);
+  });
+  return $(newElements);
+};
+
+$('#to-table').click(() => {
+  if ($('#content table').length) {
+    return;
+  }
+  $('#content').append($('<table><tbody></tbody></table>'));
+  let $table = $('#content table'), $rows = $('#content > .row');
+  $rows.find('span[judg]').each((i, el) => {
+    $(el).changeElementType('P');
+  });
+  $rows.each((i, el) => {
+    let $tr = $('<tr><td class="cell-l" width="50%"></td><td class="cell-r" width="50%"></td></tr>')
+    $tr.find('.cell-l').append($($(el).find('.cell-l').html()));
+    $tr.find('.cell-r').append($($(el).find('.cell-r').html()));
+    $table.append($tr);
+    $(el).remove();
+  });
+});
