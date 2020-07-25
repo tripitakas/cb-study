@@ -19,6 +19,46 @@
       }
     }
     td { padding: .5em; font-size: 18px; }
+
+    .label-panel {
+      position: fixed;
+      right: 0;
+      top: 0;
+      width: 400px;
+      min-height: 100%;
+      padding: 10px;
+      margin: 40px 10px 10px;
+      border: 1px solid #ddd;
+      background: #fff;
+    }
+    .label-panel > div {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .label-panel p {
+      text-indent: 0;
+      font-size: 14px;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    .label-panel p:first-child > span:first-child {
+      font-weight: 700;
+    }
+    .note-p {
+      display: none;
+      color: #555;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: .5em;
+    }
+    .org-text {
+      margin-right: 2em;
+    }
+    .note-tag {
+      font-size: 12px;
+      color: #aaa;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -835,6 +875,8 @@
     <div class="cell-r col-xs-6">
       <p id="p143" class="juan juan-end hide-txt">大乘起信論卷下</p></div>
   </div>
+
+  <div class="label-panel"><div></div></div>
 </div>
 
 <footer>
@@ -846,6 +888,9 @@
 <script src="assets/jstree/jstree.js"></script>
 <script src="assets/T1666.json.js?v=5212"></script>
 <script src="assets/reader.js?v=523"></script>
+<script src="assets/T1846.json.js"></script>
+<script src="assets/T1850.json.js"></script>
+
 <script>
   let $judgments = $('#judgments');
 
@@ -862,6 +907,44 @@
   setTimeout(function () {
     $('#show-inline-no-judg').click();
   }, 200);
+
+  let $labelPanel = $('.label-panel > div'),
+      notes = T1846Notes, noteTag = '[義]';
+
+  notes.forEach(note => {
+    $labelPanel.append($('<p id="note' + note[0] + '"><span>' + note[1] + '</span>: ' + note[2] + '</p>'));
+  });
+
+  $labelPanel.dblclick(function() {
+    $('.label-panel p:first-child').remove();
+  });
+
+  $(document).on('click', '.note-tag', function (e) {
+    let $this = $(e.target),
+        id = $this.attr('data-note-id'),
+        $p = $('.note-p[data-note-id=' + id + ']');
+
+    $p.toggle();
+    e.stopPropagation();
+  });
+
+  $(document).on('dblclick', '.note-p', function (e) {
+    $(e.target).closest('.note-p').toggle();
+    e.stopPropagation();
+  });
+
+  $(document).on('click', '[judg]', function (e) {
+    let $this = $(e.target),
+        $p = $('.label-panel p:first-child'),
+        id = $p.attr('id').substring(4),
+        text = $p.text().split(': ');
+
+    if ($this.find('.note-tag').length) return;
+    $p.remove();
+    $('<p class="note-p" data-note-id="' + id + '"><span class="org-text">' + text[0] +
+      '</span><span class="note-text">' + text[1] + '</span></span>').insertAfter($this);
+    $this.append($('<span class="note-tag" data-note-id="' + id + '" title="' + text[0] + '">' + noteTag + '</span>'));
+  });
 </script>
 </body>
 </html>
