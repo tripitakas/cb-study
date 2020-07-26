@@ -20,52 +20,30 @@
     }
     td { padding: .5em; font-size: 18px; }
 
-    #content {
-      margin-right: 40%;
-    }
-    .label-panel {
-      position: fixed;
-      right: 0;
-      top: 0;
-      width: 40%;
-      min-height: 100%;
-      padding: 10px;
-      margin: 40px 0 10px;
-      border: 1px solid #ddd;
-      background: #fff;
-      z-index: 1000;
-    }
-    .label-panel > div {
-      height: 700px;
-      overflow-y: auto;
-    }
-    .label-panel p {
-      text-indent: 0;
-      font-size: 14px;
-      overflow: hidden;
-      white-space: nowrap;
-    }
-    .label-panel p:first-child > span:first-child {
-      font-weight: 700;
-    }
     .note-p {
       display: none;
       color: #555;
       border: 1px solid #ddd;
       border-radius: 4px;
       padding: .5em;
-    }
-    .label-panel .linked {
-      text-decoration: line-through;
-      color: #999;
+      text-indent: 0;
     }
     .org-text {
       margin-right: 2em;
+      color: #77a;
+      font-weight: 300;
+    }
+    .note-text {
+      color: #33a;
     }
     .note-tag {
       font-size: 12px;
       color: #aaa;
       cursor: pointer;
+    }
+    .note-tag.note-expanded {
+      font-weight: 700;
+      font-size: 16px;
     }
   </style>
 </head>
@@ -916,59 +894,46 @@
     $('#show-inline-no-judg').click();
   }, 200);
 
-  let $labelPanel = $('.label-panel > div'),
-      $content = $('.cell-r'),
-      notes = T1850Notes, noteTag = '[裂]';
+  // 根据注解锚点插入注解段落
+  function insertNotes($side, notes) {
+    $side.find('.note-tag').each(function() {
+      let $tag = $(this),
+          id = parseInt($tag.attr('data-note-id')),
+          note = notes.filter(item => item[0] == id)[0],
+          title = [], rows = [];
+      console.assert(note && note.length % 3 === 0, id + ' mismatch');
+      for (let i = 0; i + 2 < note.length; i += 3) {
+        title.push(note[1]);
+        rows.push('<span class="org-text">' + note[1] + '</span><span class="note-text">' + note[2] + '</span>');
+      }
+      $tag.attr('title', title.join('\n'));
+      $('<p class="note-p" data-note-id="' + id + '">' + rows.join('<br>') + '</p>')
+        .insertAfter($tag.closest('[judg]'));
+    });
+  }
 
-  notes.forEach(note => {
-    let $tag = $content.find('[judg] > [data-note-id=' + note[0] + ']');
-    $labelPanel.append($('<p id="note' + note[0] + '" class="' + ($tag.length ? 'linked' : '') +
-      '">' + note[0] + ': <span>' + note[1] + '</span>: ' + note[2] + '</p>'));
-  });
+  $('.note-p').remove();
+  insertNotes($('.cell-l'), T1846Notes);  // 義記
+  insertNotes($('.cell-r'), T1850Notes);  // 裂網疏
 
-  $labelPanel.dblclick(function() {
-    $('.label-panel p:first-child').remove();
-  });
-
-  $(document).on('click', '.label-panel p>span', function (e) {
-    let $p = $(e.target).closest('p'),
-        id = $p.attr('id').substring(4),
-        $tag = $content.find('.note-tag[data-note-id=' + id + ']');
-    if ($tag.length) {
-      $tag.css('zoom', 2);
-      setTimeout(() => {$tag.css('zoom', 1);}, 1000);
-    }
-  });
-
+  // 单击注解锚点标记则展开注解段落
   $(document).on('click', '.note-tag', function (e) {
-    let $this = $(e.target).closest('p'),
+    let $this = $(e.target),
         id = $this.attr('data-note-id'),
-        $p = $content.find('.note-p[data-note-id=' + id + ']');
+        $p = $this.closest('.cell-l, .cell-r').find('.note-p[data-note-id=' + id + ']');
 
     $p.toggle();
+    $this.toggleClass('note-expanded');
     e.stopPropagation();
   });
 
+  // 双击注解段落则收起隐藏
   $(document).on('dblclick', '.note-p', function (e) {
     $(e.target).closest('.note-p').toggle();
+    $(e.target).closest('.cell-l, .cell-r').find('.note-tag[data-note-id=' + id + ']').toggleClass('note-expanded');
+    $this.toggleClass('note-expanded');
     e.stopPropagation();
   });
-
-  $(document).on('click', '[judg]', function (e) {
-    let $this = $(e.target),
-        $p = $('.label-panel p:first-child'),
-        id = $p.attr('id').substring(4),
-        text = $p.text().split(': ');
-
-    if ($this.find('.note-tag').length) return;
-    $p.remove();
-    $('<p class="note-p" data-note-id="' + id + '"><span class="org-text">' + text[1] +
-      '</span><span class="note-text">' + text[2] + '</span></span>').insertAfter($this);
-    $this.append($('<span class="note-tag" data-note-id="' + id + '" title="' + text[1] + '">' + noteTag + '</span>'));
-  });
-  //$('.note-p').remove();
-  //$('.note-tag').attr('title', null);
-  //$('.note-tag').css('zoom', null);
 </script>
 </body>
 </html>

@@ -1,0 +1,32 @@
+#content {
+  margin-right: 40%;
+}
+.label-panel {
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 40%;
+  min-height: 100%;
+  padding: 10px;
+  margin: 40px 0 10px;
+  border: 1px solid #ddd;
+  background: #fff;
+  z-index: 1000;
+}
+.label-panel > div {
+  height: 700px;
+  overflow-y: auto;
+}
+.label-panel p {
+  text-indent: 0;
+  font-size: 14px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.label-panel p:first-child > span:first-child {
+  font-weight: 700;
+}
+.label-panel .linked {
+  text-decoration: line-through;
+  color: #999;
+}

@@ -1,4 +1,4 @@
-var T1850Notes = [
+var T1850Notes = [ // 大乘起信論裂網疏
   [
     47,
     "大乘起信論<span class='doube-line-note'>(馬鳴菩薩造唐三藏法師實叉難陀譯)</span>",
