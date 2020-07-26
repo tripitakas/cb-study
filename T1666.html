@@ -30,7 +30,7 @@
     }
     .org-text {
       margin-right: 1em;
-      color: #77a;
+      color: #99a;
       font-weight: 300;
     }
     .note-text {
@@ -43,6 +43,9 @@
     }
     .note-tag.note-expanded {
       color: #00f;
+    }
+    .more {
+      cursor: pointer;
     }
   </style>
 </head>
@@ -71,6 +74,7 @@
              aria-expanded="false">显示 <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a href="#" id="show-xu" title="切换序言是否显示">序</a></li>
+            <li><a href="#" id="show-notes" title="切换是否显示全部注解">注解</a></li>
             <li role="separator" class="divider"></li>
             <li><a href="#" id="enlarge-font" title="增加正文字号">增加字号</a></li>
             <li><a href="#" id="reduce-font" title="减少正文字号">减少字号</a></li>
@@ -178,11 +182,11 @@
       <div class="lg" id="g1" judg="9">
         <div class="lg-row" judg="11">
           <div class="lg-cell">歸命盡十方，<span class="note-tag" data-note-id="56">[義]</span></div>
-          <div class="lg-cell">最勝業遍知，<span class="note-tag" data-note-id="58">[義]</span></div>
+          <div class="lg-cell">最勝業遍知，</div>
         </div><!-- end of lg-row -->
         <div class="lg-row" judg="11">
           <div class="lg-cell">色無礙自在，</div>
-          <div class="lg-cell">救世大悲者，</div>
+          <div class="lg-cell">救世大悲者，<span class="note-tag" data-note-id="58">[義]</span></div>
         </div><!-- end of lg-row -->
         <div class="lg-row" judg="11">
           <div class="lg-cell">及彼身體相，<span class="note-tag" data-note-id="59">[義]</span></div>
@@ -193,12 +197,12 @@
           <div class="lg-cell">如實修行等。<span class="note-tag" data-note-id="60">[義]</span></div>
         </div><!-- end of lg-row -->
         <div class="lg-row" judg="12">
-          <div class="lg-cell">為欲令眾生，<span class="note-tag" data-note-id="61">[義]</span></div>
+          <div class="lg-cell">為欲令眾生，</div>
           <div class="lg-cell">除疑捨邪執，</div>
         </div><!-- end of lg-row -->
         <div class="lg-row" judg="12">
           <div class="lg-cell">起大乘正信，</div>
-          <div class="lg-cell">佛種不斷故。</div>
+          <div class="lg-cell">佛種不斷故。<span class="note-tag" data-note-id="61">[義]</span></div>
         </div><!-- end of lg -->
       </div>
     </div>
@@ -832,12 +836,12 @@
     <div class="col-xs-6 cell-l">
       <div class="lg active" id="g2" judg="8">
         <div class="lg-row">
-          <div class="lg-cell">諸佛甚深廣大義，<span class="note-tag" data-note-id="435">[義]</span></div>
+          <div class="lg-cell">諸佛甚深廣大義，</div>
           <div class="lg-cell">我今隨分總持說，</div>
         </div><!-- end of lg-row -->
         <div class="lg-row">
           <div class="lg-cell">迴此功德如法性，</div>
-          <div class="lg-cell">普利一切眾生界。</div>
+          <div class="lg-cell">普利一切眾生界。<span class="note-tag" data-note-id="435">[義]</span></div>
         </div><!-- end of lg -->
       </div>
     </div>
@@ -899,17 +903,20 @@
       let $tag = $(this),
           id = parseInt($tag.attr('data-note-id')),
           note = notes.filter(item => item[0] == id)[0],
+          $judg = $tag.closest('[judg]'),
           title = [], rows = [];
       console.assert(note && note.length % 3 === 0, id + ' mismatch');
       for (let i = 0; i + 2 < note.length; i += 3) {
         title.push(note[i + 1]);
-        rows.push('<span class="org-text">' + note[i + 1] +
+        rows.push('<span class="org-text">' +
+          (note[i + 1].length > 4 ? note[i + 1].substring(0, 3) +
+              '<span class="more" data-more="' + note[i + 1].substring(3) + '">…</span>' : note[i + 1]) +
           '</span><span class="note-text">' + note[i + 2] + '</span>');
       }
       $tag.attr('title', title.join('\n'));
       $tag.text($tag.text().replace(/\d*\]/, '') + (title.length > 1 ? title.length : '') + ']');
       $('<p class="note-p" data-note-id="' + id + '">' + rows.join('<br>') + '</p>')
-        .insertAfter($tag.closest('[judg]'));
+        .insertAfter($judg.closest('.lg').length ? $judg.closest('.lg') : $judg);
     });
   }
 
@@ -936,6 +943,19 @@
     $p.toggle();
     $tag.toggleClass('note-expanded');
     e.stopPropagation();
+  });
+
+  // 单击 … 展开文字
+  $(document).on('click', '.more', function (e) {
+    let $s = $(e.target);
+    $s.text($s.text() === '…' ? $s.attr('data-more') : '…');
+  });
+
+  // 显隐全部注解
+  $('#show-notes').click(() => {
+    let expanded = $('.note-tag.note-expanded').length;
+    $('.note-p').toggle(!expanded);
+    $('.note-tag').toggleClass('note-expanded', !expanded);
   });
 </script>
 </body>
