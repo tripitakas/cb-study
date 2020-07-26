@@ -29,7 +29,7 @@
       text-indent: 0;
     }
     .org-text {
-      margin-right: 2em;
+      margin-right: 1em;
       color: #77a;
       font-weight: 300;
     }
@@ -903,8 +903,9 @@
           title = [], rows = [];
       console.assert(note && note.length % 3 === 0, id + ' mismatch');
       for (let i = 0; i + 2 < note.length; i += 3) {
-        title.push(note[1]);
-        rows.push('<span class="org-text">' + note[1] + '</span><span class="note-text">' + note[2] + '</span>');
+        title.push(note[i + 1]);
+        rows.push('<span class="org-text">' + note[i + 1] +
+          '</span><span class="note-text">' + note[i + 2] + '</span>');
       }
       $tag.attr('title', title.join('\n'));
       $('<p class="note-p" data-note-id="' + id + '">' + rows.join('<br>') + '</p>')
@@ -929,9 +930,11 @@
 
   // 双击注解段落则收起隐藏
   $(document).on('dblclick', '.note-p', function (e) {
-    $(e.target).closest('.note-p').toggle();
-    $(e.target).closest('.cell-l, .cell-r').find('.note-tag[data-note-id=' + id + ']').toggleClass('note-expanded');
-    $this.toggleClass('note-expanded');
+    let $p = $(e.target).closest('.note-p'),
+        id = $p.attr('data-note-id'),
+        $tag = $p.closest('.cell-l, .cell-r').find('.note-tag[data-note-id=' + id + ']');
+    $p.toggle();
+    $tag.toggleClass('note-expanded');
     e.stopPropagation();
   });
 </script>
