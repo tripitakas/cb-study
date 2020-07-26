@@ -27,6 +27,8 @@
       border-radius: 4px;
       padding: .5em;
       text-indent: 0;
+      -moz-box-shadow: 2px 2px 1px #888888;
+      box-shadow: 2px 2px 1px #888888;
     }
     .org-text {
       margin-right: 1em;
@@ -34,14 +36,23 @@
       font-weight: 300;
     }
     .note-text {
-      color: #33a;
+      color: #444;
+    }
+    .note-item:hover .note-text {
+      color: #338;
+    }
+    .note-item.active .note-text {
+      color: #33c;
     }
     .note-tag {
-      font-size: 12px;
+      font-size: 13px;
       color: #aaa;
       cursor: pointer;
     }
     .note-tag.note-expanded {
+      color: #f00;
+    }
+    .note-tag:hover {
       color: #00f;
     }
     .more {
@@ -908,13 +919,12 @@
       console.assert(note && note.length % 3 === 0, id + ' mismatch');
       for (let i = 0; i + 2 < note.length; i += 3) {
         title.push(note[i + 1]);
-        rows.push('<span class="org-text">' +
+        rows.push('<span class="note-item"><span class="org-text">' +
           (note[i + 1].length > 4 ? note[i + 1].substring(0, 3) +
               '<span class="more" data-more="' + note[i + 1].substring(3) + '">…</span>' : note[i + 1]) +
-          '</span><span class="note-text">' + note[i + 2] + '</span>');
+          '</span><span class="note-text">' + note[i + 2] + '</span></span>');
       }
       $tag.attr('title', title.join('\n'));
-      $tag.text($tag.text().replace(/\d*\]/, '') + (title.length > 1 ? title.length : '') + ']');
       $('<p class="note-p" data-note-id="' + id + '">' + rows.join('<br>') + '</p>')
         .insertAfter($judg.closest('.lg').length ? $judg.closest('.lg') : $judg);
     });
@@ -956,6 +966,12 @@
     let expanded = $('.note-tag.note-expanded').length;
     $('.note-p').toggle(!expanded);
     $('.note-tag').toggleClass('note-expanded', !expanded);
+  });
+
+  // 单击注释切换当前条
+  $(document).on('click', '.note-text', function (e) {
+    $(e.target).closest('.note-p').find('.note-item').removeClass('active');
+    $(e.target).closest('.note-item').toggleClass('active');
   });
 </script>
 </body>
