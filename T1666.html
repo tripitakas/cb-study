@@ -42,8 +42,7 @@
       cursor: pointer;
     }
     .note-tag.note-expanded {
-      font-weight: 700;
-      font-size: 16px;
+      color: #00f;
     }
   </style>
 </head>
@@ -908,6 +907,7 @@
           '</span><span class="note-text">' + note[i + 2] + '</span>');
       }
       $tag.attr('title', title.join('\n'));
+      $tag.text($tag.text().replace(/\d*\]/, '') + (title.length > 1 ? title.length : '') + ']');
       $('<p class="note-p" data-note-id="' + id + '">' + rows.join('<br>') + '</p>')
         .insertAfter($tag.closest('[judg]'));
     });
