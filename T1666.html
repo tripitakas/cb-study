@@ -27,8 +27,8 @@
       border-radius: 4px;
       padding: .5em;
       text-indent: 0;
-      -moz-box-shadow: 2px 2px 1px #888888;
-      box-shadow: 2px 2px 1px #888888;
+      -moz-box-shadow: 1px 1px 1px #aaa;
+      box-shadow: 1px 1px 1px #aaa;
     }
     .org-text {
       margin-right: 1em;
@@ -37,9 +37,6 @@
     }
     .note-text {
       color: #444;
-    }
-    .note-item:hover .note-text {
-      color: #338;
     }
     .note-item.active .note-text {
       color: #33c;
@@ -970,8 +967,8 @@
 
   // 单击注释切换当前条
   $(document).on('click', '.note-text', function (e) {
-    $(e.target).closest('.note-p').find('.note-item').removeClass('active');
-    $(e.target).closest('.note-item').toggleClass('active');
+    $(e.target).closest('.cell-l, .cell-r').find('.note-item').removeClass('active');
+    $(e.target).closest('.note-item').addClass('active');
   });
 </script>
 </body>
