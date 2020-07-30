@@ -1,0 +1,159 @@
+#cbeta-copyright {
+  background-color: #f0f0f0;
+  padding: 10px;
+  display: none;
+}
+#cbeta-copyright p {
+  text-indent: 0!important;
+}
+.byline {
+  color: #408080;
+  text-align: right;
+}
+.cbeta { color: red; }
+.head {
+  font-size: larger;
+  color: #0000a0;
+}
+.juan {
+  font-size: larger;
+  color: #00f;
+}
+.juan-end {
+  text-align: right;
+  font-size: small;
+  color: #777;
+}
+div.lg {
+  display: table;
+  color: #008040;
+  margin-left: 4em!important;
+}
+div.lg-cell { display: table-cell; }
+div.lg-row { display: table-row; }
+div.lg + p { margin-top: .5em; }
+p { text-indent: 2em; }
+span.hint { color: blue; }
+
+p {
+  padding: 4px 0;
+  margin: 0;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-size: 14px;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  font-family: BlinkMacSystemFont, Helvetica, 'PingFang SC', 'Microsoft YaHei', arial, sans-serif;
+}
+
+@media print {
+  .no-print, .line-no, footer, navbar {
+    display: none;
+  }
+}
+
+@media screen {
+  body {
+    background: #f5f5f5;
+  }
+}
+
+.navbar {
+  font-size: 14px;
+}
+
+.single-article {
+  margin-left: 15px;
+  margin-right: 10px;
+}
+
+#content, #merged {
+  font-size: 20px;
+}
+
+.line-no {
+  font-size: 10px;
+  color: #999;
+}
+
+.show-box .row {
+  border-bottom: 1px solid #aaa;
+}
+
+.show-box .row p {
+  border-bottom: 1px dotted #bbb;
+  margin: 1px;
+}
+
+.show-box .row p:last-child {
+  border-bottom: none;
+}
+
+body:not(.show-hide-txt) .hide-txt {
+  display: none;
+}
+
+
+footer {
+  position: fixed;
+  bottom: 0;
+  height: 40px;
+  width: 100%;
+  padding: 4px;
+  border-top: 1px solid #eee;
+  background-color: rgb(249, 249, 249);
+}
+
+footer a:hover {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+span[judg] {
+  margin-right: .7em;
+  transition: alls .3s ease-in-out;
+}
+span[judg] > .judg-text {
+  font-size: .6em;
+  color: #777;
+}
+.hide-judg-txt .judg-text {
+  display: none;
+}
+.show-inline-judg :not(.juan) > span[judg] {
+  margin-right: 0;
+  display: block;
+}
+[judg].active, [judg]:hover, [judg].hover, .highlight {
+  color: green;
+}
+[judg].active, .highlight {
+  font-weight: 700;
+}
+[judg].hover {
+  color: #008000;
+}
+.show-inline-judg .row p {
+  margin-bottom: .5em;
+}
+
+.left-nav {
+  position: fixed;
+  left: 0;
+  top: 50px;
+  width: 25%;
+  height: calc(100% - 90px);
+  overflow: auto;
+}
+.hide-left-bar .left-nav {
+  display: none;
+}
+.hide-left-bar #content {
+  padding-left: 15px;
+}
