@@ -151,8 +151,7 @@ function convertToSpanWithTag(tag, value, text) {
       selText = sel.toString(); // 选择的文字
 
   if (selText && value && text && p && p.tagName === 'P' && node === sel.focusNode && node.nodeName === '#text') {
-    p.innerHTML = p.innerHTML.replace(selText, '<span ' + tag + '="' + value +'">' + selText +
-        '<sup>[' + value + ':' + text.substring(0, 4) + ']</sup></span>');
+    p.innerHTML = p.innerHTML.replace(selText, '<span ' + tag + '="' + value +'">' + selText + '</span>');
   } else {
     console.log(value, text, p);
   }

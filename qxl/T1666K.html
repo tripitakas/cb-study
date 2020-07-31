@@ -3,9 +3,25 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>大乘起信論</title>
   <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="assets/jstree/jstree.min.css"/>
   <link href="assets/cb.css" rel="stylesheet"/>
+  <style>
+    @media screen {
+      body {
+        padding-bottom: 50px;
+      }
+      #content {
+        padding-left: 25%;
+      }
+    }
+    [judg] { text-decoration: underline; }
+  </style>
 </head>
 <body>
+
+<div class="left-nav no-print">
+  <div id="judgments"></div>
+</div>
 
 <div id="content" class="container-fluid">
   <div class="row">
@@ -604,8 +620,26 @@
   </div>
 </div>
 
+<footer><p class="judg-path"></p></footer>
+
 <script src="assets/jquery.min.js"></script>
 <script src="assets/bootstrap/js/bootstrap.min.js"></script>
 <script src="assets/reader.js?v=7310"></script>
+<script src="assets/jstree/jstree.js"></script>
+<script src="assets/T1666K.json.js"></script>
 
+<script>
+  let $judgments = $('#judgments');
+
+  $judgments.jstree(judgments);
+
+  $judgments.on('loaded.jstree', function (e, data) {
+    data.instance.open_all();
+  });
+  $judgments.on('changed.jstree', function (e, data) {
+    convertToSpanWithTag('judg', data.node.id, data.node.text);
+  });
+
+  setTimeout(showInlineJudgments, 200);
+</script>
 </body></html>

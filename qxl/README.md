@@ -2,7 +2,8 @@
 
 本文说明《大乘起信论》新旧译本对照、内置科判导航、合并注论释的制作过程。
 
-[操作结果网页](T1666-1667.html)
+- [操作结果网页](T1666-1667.html)
+- [科判标引网页](T1666K.html)
 
 1. 从 [CBeta][CB] 网站下载《大乘起信论》[梁译][T1666] 和 [唐译][T1667] 的HTML文件：T1666.html、T1667.html。
 
@@ -68,6 +69,18 @@
    - 在前面得到的页面中复制`#merged`元素的HTML内容，覆盖到`#content`（删除`#merged`，改变`#content`），作为后续的正文`T1666K.html`。
      删除`rowPairs`及其函数调用。
 
+   - 制作科判内容
+     - 在MindNode等思维导图软件中编辑科判内容，导出 OPML 格式文件。
+     - 使用 [opml-to-json][opml-to-json] 工具转为JSON格式的文件，其中有`title`和`children`节点。
+       或者使用 [xml-to-json][xml-to-json] 在线转为JSON，替换节点名。
+     - 使用 `util/set_tree_id.py` 脚本为科判节点分配编号，将生成的`_tree.json`参考`T1666K.json.js`格式完成科判JSON的制作。
+
+   - 在页面加入 `.left-nav#judgments` 和 `footer` 元素，参考相关典籍开始科判标引：
+     依次选中论文文本，点击科判节点，即将此文本提取为一个span，并设置其科判编号。允许有多个相同科判号的相邻span。
+     不断重复此过程，完成(或部分完成)后复制`#content`元素的整个HTML内容到网页文件。
+
 [CB]: http://cbetaonline.cn
 [T1666]: http://cbetaonline.cn/zh/T1666_001
 [T1667]: http://cbetaonline.cn/zh/T1667_001
+[opml-to-json]: https://github.com/azu/opml-to-json
+[xml-to-json]: https://www.convertjson.com/xml-to-json.htm
