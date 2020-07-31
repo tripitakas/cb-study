@@ -17,14 +17,14 @@
    
 3. 将合并后的网页改为左右两栏的页面，加上 bootstrap、jquery、cb.css 的引用，将上面的 `<div id='body...>` 改造为：
 
-```html
-<div id="content" class="container-fluid">
-  <div class="row">
-    <div class="original col-xs-6" id='body-left'...>
-    <div class="original col-xs-6" id='body-right'...>
-  </div>
-</div>
-```
+    ```html
+    <div id="content" class="container-fluid">
+      <div class="row">
+        <div class="original col-xs-6" id='body-left'...>
+        <div class="original col-xs-6" id='body-right'...>
+      </div>
+    </div>
+    ```
 
 4. 段落分组，让两栏对照内容对应
 
