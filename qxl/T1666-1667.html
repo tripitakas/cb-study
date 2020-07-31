@@ -4,7 +4,11 @@
   <title>大乘起信論</title>
   <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css" />
   <link href="assets/cb.css" rel="stylesheet"/>
-  <link href="assets/label-panel.css?v=731" rel="stylesheet"/>
+  <style>
+    #merged > .row:hover {
+      color: #434188;
+    }
+  </style>
 </head>
 <body>
 
@@ -214,29 +218,9 @@
   </div>
 </div>
 
-<div class="label-panel">
-  <div class="current-row">
-    <p>在左边两栏中依次点击要同在一组的段落。</p>
-    <div class="row">
-      <label class="col-xs-2">左栏：</label>
-      <div class="col-xs-10 row-left-ids"></div>
-    </div>
-    <div class="row">
-      <label class="col-xs-2">右栏：</label>
-      <div class="col-xs-10 row-right-ids"></div>
-    </div>
-    <button class="btn btn-default" id="move-row" title="将此组段落移到左上的合并区，成为左右对照的一组">移为一组</button>
-  </div>
-  <div class="row-pairs-div">
-    <p>将下面内容复制到网页的 rowPairs 变量处。</p>
-    <textarea readonly></textarea>
-  </div>
-</div>
-
 <script src="assets/jquery.min.js"></script>
 <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-<script src="assets/reader.js?v=731"></script>
-<script src="assets/group-rows.js"></script>
+<script src="assets/reader.js?v=7310"></script>
 
 <script>
   window.rowPairs = '.div-xu | .div-xu ||\
@@ -271,7 +255,7 @@
       p40 | p93b ||\
       p41 p42 | p93c p94 ||\
       p43 | p95 ||\
-      | p96 p97 p98 p99 ||\
+      | p96- p97- p98- p99- ||\
       p44 | p100 ||\
       p44b | p101 ||\
       p44c | p102 ||\
@@ -306,8 +290,10 @@
       p63 | p127 ||\
       p64 p65 p66 | p128 ||\
       g7 g8 | g15 g16 ||\
-      p67 | p129 ||';
+      p67- | p129- ||';
 
-  initGroupRows();
+  // showLineNo();
+  // showParaBox();
+  rowPairs.split('||').forEach(movePairs);
 </script>
 </body></html>

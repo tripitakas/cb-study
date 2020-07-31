@@ -30,11 +30,40 @@
 
    - 在网页中引用 `label-panel.css`、`group-rows.js`、`reader.js`
    - 加 `<div id="merged" class="container-fluid"></div>`，用于收集合并后的内容
-   - 加 `<div class="label-panel">...</div>` 用于分组操作
+   - 加 `<div class="label-panel">...</div>` （代码片段如下）用于分组操作。
    - 开始分组操作 `initGroupRows();`
    - 然后在两栏段落中依次单击段落，点击“移为一组”按钮，相应段落将移到红线上面的合并区内。
    - 如果段落需要拆分，就在网页中找到插入位置，插入`</p>`，换行插入`<p id='p82b'>`，其中的编号数字部分与上一段相同，末尾用字母区分。
      分组操作结束，或拆分段落前，将右边的段落分组内容复制到网页的 rowPairs 变量处，修改完成后刷新网页。
+
+   ```html
+    <div class="label-panel">
+      <div class="current-row">
+        <p>在左边两栏中依次点击要同在一组的段落。</p>
+        <div class="row">
+          <label class="col-xs-2">左栏：</label>
+          <div class="col-xs-10 row-left-ids"></div>
+        </div>
+        <div class="row">
+          <label class="col-xs-2">右栏：</label>
+          <div class="col-xs-10 row-right-ids"></div>
+        </div>
+        <button class="btn btn-default" id="move-row" title="将此组段落移到左上的合并区，成为左右对照的一组">移为一组</button>
+      </div>
+      <div class="row-pairs-div">
+        <p>将下面内容复制到网页的 rowPairs 变量处。</p>
+        <textarea readonly></textarea>
+      </div>
+    </div>
+   ```
+
+5. 退出段落分组标引模式：
+   - 去掉 `label-panel.css`、`group-rows.js` 的引用
+   - 删除 `<div class="label-panel">...</div>`
+   - 将 `initGroupRows();` 改为 `rowPairs.split('||').forEach(movePairs);`
+   - 后续发现有个别段落需要拆分或合并，可以直接修改 `rowPairs` 而不必进入段落分组标引模式。
+     如需让某些段落（例如卷尾）默认隐藏，可在其编号处加减号，例如 `p67- | p129- ||`
+
 
 [CB]: http://cbetaonline.cn
 [T1666]: http://cbetaonline.cn/zh/T1666_001

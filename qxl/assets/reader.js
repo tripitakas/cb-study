@@ -80,6 +80,69 @@ $('#reduce-font').click(reduceFont);
 $('#show-inline-judg').click(showInlineJudgments);
 $('#show-inline-no-judg').click(showInlineWithoutJudgments);
 
+
+// 将多个段落编号的串转换为选择器数组
+function _toPairSelectors(idsText) {
+  return idsText.split(' ').filter(s => s).map(s => {
+    if (s[0] !== '.' && s[0] !== '#') {
+      if (/^\d/.test(s)) {
+        s = 'p' + s;
+      }
+      s = '#' + s;
+    }
+    return s;
+  });
+}
+
+// 将一行编号（格式为“ id id... | id...”）的段落元素移到#merged的左右对照元素内
+function movePairs(ids) {
+  const $article1 = $('.original#body-left'),
+      $article2 = $('.original#body-right'),
+      ids1 = _toPairSelectors(ids.split('|')[0] || ''),
+      ids2 = _toPairSelectors(ids.split('|')[1] || ''),
+      $row = $('<div class="row"><div class="col-xs-6 cell-l"/><div class="col-xs-6 cell-r"/></div>'),
+      $left = $row.find('.cell-l'), $right = $row.find('.cell-r');
+  let count = 0;
+  let moveItems = (ids_, $article, $column) => {
+    let lg = null;
+    for (let id of ids_) {
+      let id2 = id.replace(/-$/, ''), el = $article.find(id2); // 编号末尾有减号表示转为隐藏文本
+      console.assert(el.length, id2 + ' not found: ' + ids);
+      if (el.length) {
+        let $lg = el.closest('.lg');
+        if ($lg.length) {
+          if (!lg || lg[0] === $lg[0]) {
+            lg = $lg;
+            continue;
+          }
+        }
+        el.remove();
+        if (/-$/.test(id)) {
+          el.addClass('hide-txt');
+        } else {
+          count++;
+        }
+        $column.append(el);
+      }
+    }
+    if (lg) {
+      count++;
+      lg.remove();
+      $column.append(lg);
+    }
+  };
+
+  if (!ids1.length && !ids2.length) {
+    return;
+  }
+  moveItems(ids1, $article1, $left);
+  moveItems(ids2, $article2, $right);
+  if (count === 0) {
+    $row.addClass('hide-txt');
+  }
+  $('#merged').append($row);
+}
+
 // 单击科判节点后将当前选中文本提取为一个span，并设置其科判编号
 function convertToSpanWithTag(tag, value, text) {
   let sel = window.getSelection(),  // 选中范围，非IE
