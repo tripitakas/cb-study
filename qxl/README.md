@@ -64,6 +64,9 @@
    - 后续发现有个别段落需要拆分或合并，可以直接修改 `rowPairs` 而不必进入段落分组标引模式。
      如需让某些段落（例如卷尾）默认隐藏，可在其编号处加减号，例如 `p67- | p129- ||`
 
+6. 科判标引
+   - 在前面得到的页面中复制`#merged`元素的HTML内容，覆盖到`#content`（删除`#merged`，改变`#content`），作为后续的正文`T1666K.html`。
+     删除`rowPairs`及其函数调用。
 
 [CB]: http://cbetaonline.cn
 [T1666]: http://cbetaonline.cn/zh/T1666_001
