@@ -82,16 +82,19 @@ body {
   color: #999;
 }
 
-.show-box .row {
+.show-box #merged .row,
+.show-box #content .row {
   border-bottom: 1px solid #aaa;
 }
 
-.show-box .row p {
+.show-box #merged .row p,
+.show-box #content .row p {
   border-bottom: 1px dotted #bbb;
   margin: 1px;
 }
 
-.show-box .row p:last-child {
+.show-box #merged .row p:last-child,
+.show-box #content .row p:last-child {
   border-bottom: none;
 }
 

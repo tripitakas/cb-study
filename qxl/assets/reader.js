@@ -1,6 +1,6 @@
 // 显隐行号
-$('#show-line-no').click(() => {
-  $('p, .lg').each((i, p) => {
+function showLineNo() {
+  $('#content p, #content .lg-row').each((i, p) => {
     const $p = $(p);
     if ($p.find('.line-no').length) {
       $p.find('.line-no').remove();
@@ -8,125 +8,77 @@ $('#show-line-no').click(() => {
       $p.prepend($('<span class="line-no">[' + $p.attr('id').replace(/^p/, '') + ']</span>'));
     }
   });
-});
+}
 
 // 显隐序言
-$('#show-xu').click(() => {
+function showXu() {
   $('.div-xu').toggle();
-});
+}
 
 // 显隐段落和span框，用于调试科判分布
-$('#show-box').click(() => {
+function showParaBox() {
   $('body').toggleClass('show-box');
-});
-
-$('#show-hide-txt').click(() => {
-  $('body').toggleClass('show-hide-txt');
-});
+}
 
 // 显示左边文
-$('#show-left').click(() => {
+function showLeftColumn() {
   let $left = $('.cell-l'), $right = $('.cell-r');
   $left.removeClass('col-xs-6');
   $left.show();
   $right.hide();
   $left.parent().parent().addClass('single-article');
-});
+}
 
 // 显示右边文
-$('#show-right').click(() => {
+function showRightColumn() {
   let $left = $('.cell-l'), $right = $('.cell-r');
   $right.removeClass('col-xs-6');
   $right.show();
   $left.hide();
   $left.parent().parent().addClass('single-article');
-});
+}
 
 // 显示左右对照文
-$('#show-both').click(() => {
+function showTwoColumns() {
   let $left = $('.cell-l'), $right = $('.cell-r');
   $left.addClass('col-xs-6');
   $right.addClass('col-xs-6');
   $left.show();
   $right.show();
   $left.parent().parent().removeClass('single-article');
-});
+}
 
 // 正文增大字号
-$('#enlarge-font').click(() => {
+function enlargeFont() {
   let fontSize = parseInt($('#content').css('font-size'));
   if (fontSize < 36) {
     fontSize++;
     $('#content, #merged').css('font-size', fontSize + 'px');
   }
-});
+}
 
 // 正文减小字号
-$('#reduce-font').click(() => {
+function reduceFont() {
   let fontSize = parseInt($('#content').css('font-size'));
   if (fontSize > 8) {
     fontSize--;
     $('#content, #merged').css('font-size', fontSize + 'px');
   }
-});
-
-// 将多个段落编号的串转换为选择器数组
-function toPairSelectors(idsText) {
-  return idsText.split(' ').filter(s => s).map(s => {
-    if (s[0] !== '.' && s[0] !== '#') {
-      if (/^\d/.test(s)) {
-        s = 'p' + s;
-      }
-      s = '#' + s;
-    }
-    return s;
-  });
 }
 
-// 将一行编号（格式为“ id id... | id...”）的段落元素移到#merged的左右对照元素内
-function movePairs(ids) {
-  const $article1 = $('.original#body-left'),
-      $article2 = $('.original#body-right'),
-      ids1 = toPairSelectors(ids.split('|')[0] || ''),
-      ids2 = toPairSelectors(ids.split('|')[1] || ''),
-      $row = $('<div class="row"><div class="col-xs-6 cell-l"/><div class="col-xs-6 cell-r"/></div>'),
-      $left = $row.find('.cell-l'), $right = $row.find('.cell-r');
-  let count = 0;
+$('#show-line-no').click(showLineNo);
+$('#show-xu').click(showXu);
+$('#show-box').click(showParaBox);
+$('#show-hide-txt').click(() => $('body').toggleClass('show-hide-txt'));
 
-  if (!ids1.length && !ids2.length) {
-    return;
-  }
-  for (let id of ids1) {
-    let id2 = id.replace(/-$/, ''), el = $article1.find(id2); // 编号末尾有减号表示转为隐藏文本
-    console.assert(el.length, id2 + ' not found: ' + ids);
-    if (el.length) {
-      el.remove();
-      if (/-$/.test(id)) {
-        el.addClass('hide-txt');
-      } else {
-        count++;
-      }
-      $left.append(el);
-    }
-  }
-  for (let id of ids2) {
-    let id2 = id.replace(/-$/, ''), el = $article2.find(id2);
-    console.assert(el.length, id2 + ' not found: ' + ids);
-    if (el.length) {
-      el.remove();
-      if (/-$/.test(id)) {
-        el.addClass('hide-txt');
-      } else {
-        count++;
-      }
-      $right.append(el);
-    }
-  }
-  if (count === 0) {
-    $row.addClass('hide-txt');
-  }
-  $('#merged').append($row);
-}
+$('#show-left').click(showLeftColumn);
+$('#show-right').click(showRightColumn);
+$('#show-both').click(showTwoColumns);
+
+$('#enlarge-font').click(enlargeFont);
+$('#reduce-font').click(reduceFont);
+$('#show-inline-judg').click(showInlineJudgments);
+$('#show-inline-no-judg').click(showInlineWithoutJudgments);
 
 // 单击科判节点后将当前选中文本提取为一个span，并设置其科判编号
 function convertToSpanWithTag(tag, value, text) {
@@ -164,14 +116,11 @@ function showInlineJudgments() {
   });
 }
 
-// 切换显隐正文内的科判标记，段内各项分行显示
-$('#show-inline-judg').click(showInlineJudgments);
-
 // 段内各项分行显示，不显示科判标记
-$('#show-inline-no-judg').click(() => {
+function showInlineWithoutJudgments() {
   showInlineJudgments();
   $('body').addClass('hide-judg-txt');
-});
+}
 
 // 高亮显示科判节点对应的正文span片段
 function highlightJudg(judgId, scroll, level) {
