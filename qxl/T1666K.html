@@ -5,6 +5,8 @@
   <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css" />
   <link rel="stylesheet" href="assets/jstree/jstree.min.css"/>
   <link href="assets/cb.css?v=8012" rel="stylesheet"/>
+  <link href="assets/note.css" rel="stylesheet"/>
+  <link href="assets/label-panel.css" rel="stylesheet"/>
   <style>
     @media screen {
       body {
@@ -17,6 +19,9 @@
       .row {
         margin-left: -5px;
       }
+    }
+    [kepan] {
+      cursor: pointer;
     }
   </style>
 </head>
@@ -713,13 +718,18 @@
   </div>
 </div>
 
+<div class="label-panel"><div></div></div>
+
 <footer><p class="judg-path"></p></footer>
 
 <script src="assets/jquery.min.js"></script>
 <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-<script src="assets/reader.js?v=8011"></script>
+<script src="assets/reader.js?v=8012"></script>
 <script src="assets/jstree/jstree.js"></script>
 <script src="assets/T1666K.json.js"></script>
+<script src="assets/label-panel.js"></script>
+<script src="assets/T1846.json.js"></script>
+<script src="assets/T1850.json.js"></script>
 
 <script>
   let $judgments = $('#judgments');
@@ -738,5 +748,9 @@
   });
 
   showInlineWithoutJudgments();  // 每条科判文单行显示
+
+  $('#hide-kepan').click();
+  initNotes(T1846Notes, '[義]', '.cell-l');
+  // initNotes(T1850Notes, '[裂]', '.cell-r');
 </script>
 </body></html>

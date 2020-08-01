@@ -84,7 +84,7 @@
      不断重复此过程，完成(或部分完成)后复制`#content`元素的整个HTML内容到网页文件。
 
    - 最后退出科判标引，检查科判标引：
-     - 注掉 `changed.jstree` 响应函数中的 `convertToSpanWithTag('judg', data.node.id, data.node.text);`，
+     - 注掉 `changed.jstree` 响应函数中的 `convertToSpanWithTag('kepan', data.node.id, data.node.text);`，
        换成 `highlightJudg(data.node.id, 'nav');`，这样在左边导航栏点击科判节点将高亮正文的响应内容。
      - 鼠标在正文有科判标记处滑过，在状态栏能看到两栏的科判标记数量，如果数量不一致可调整网页。
      - 数量一致时鼠标滑过会左右同步高亮显示。
@@ -101,6 +101,27 @@
      python util/extract_for_merge.py qxl/T1846_001-.html
      ```
    - 然后将JSON文件改为js文件（便于在HTML中静态加载），见`assets/T1846.json.js`的首行改动
+
+   - 在页面引用这两个注解JSON文件和相关样式、标注用的脚本文件：
+
+     ```html
+     <link href="assets/note.css" rel="stylesheet"/>
+     <link href="assets/label-panel.css" rel="stylesheet"/>
+
+     <script src="assets/label-panel.js"></script>
+     <script src="assets/T1846.json.js"></script>
+     <script src="assets/T1850.json.js"></script>
+     ```
+
+     添加标注面板 `<div class="label-panel"><div></div></div>`。
+
+     开始标注左列的义记注解：
+
+     ```js
+     $('#hide-kepan').click();
+     initNotes(T1846Notes, '[義]', '.cell-l');
+     // initNotes(T1850Notes, '[裂]', '.cell-r');
+     ```
 
 [CB]: http://cbetaonline.cn
 [T1666]: http://cbetaonline.cn/zh/T1666_001
