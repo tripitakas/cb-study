@@ -150,20 +150,32 @@ function convertToSpanWithTag(tag, value, text) {
       p = node && node.parentElement, // 段落元素，应为P
       selText = sel.toString(); // 选择的文字
 
-  if (selText && value && text && p && p.tagName === 'P' && node === sel.focusNode && node.nodeName === '#text') {
-    p.innerHTML = p.innerHTML.replace(selText, '<span ' + tag + '="' + value +'">' + selText + '</span>');
-  } else {
-    console.log(value, text, p);
+  if (selText && value && text && p && node.nodeName === '#text') {
+    if (p.tagName === 'P' && node === sel.focusNode) {
+      p.innerHTML = p.innerHTML.replace(selText, '<span ' + tag + '="' + value +'">' + selText + '</span>');
+    }
+    else if (/^lg/.test(p.className)) {
+      if (/^lg-cell/.test(p.className)) {
+        $(p).parent().attr(tag, value);
+      } else {
+        $(p).attr(tag, value);
+      }
+    } else {
+      console.log(value, text, p);
+    }
   }
 }
 
 // 切换显隐正文内的科判标记，段内各项分行显示
-function showInlineJudgments() {
+function showInlineJudgments(reset) {
   const tree = $.jstree.reference('#judgments');
 
+  if (reset) {
+    $('.judg-text').remove();
+  }
   $('body').toggleClass('show-inline-judg');
   $('body').removeClass('hide-judg-txt');
-  $('span[judg]').each((i, s) => {
+  $('[judg]').each((i, s) => {
     let $s = $(s), $j = $s.find('.judg-text');
 
     if ($j.length) {
@@ -172,7 +184,11 @@ function showInlineJudgments() {
       const node = tree.get_node($s.attr('judg'));
       if (node) {
         $j = $('<span class="judg-text">[' + node.text.replace(/^.+、|[(（].+$/g, '') + ']</span>');
-        $s.append($j);
+        if ($s.find('div').length) {
+          $s.find('div:last-child').append($j);
+        } else {
+          $s.append($j);
+        }
       }
     }
   });
@@ -355,7 +371,7 @@ $('#to-table').click(() => {
   }
   $('#content').append($('<table><tbody></tbody></table>'));
   let $table = $('#content table'), $rows = $('#content > .row');
-  $rows.find('span[judg]').each((i, el) => {
+  $rows.find('[judg]').each((i, el) => {
     $(el).changeElementType('P');
   });
   $rows.each((i, el) => {
