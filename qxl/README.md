@@ -8,6 +8,7 @@
 - [第5步: 退出段落分组模式](step5.html)
 - [第6步: 科判标引](step6.html)
 - [第7步: 加导航条](step7.html)
+- [第8步: 合并注解到论文](step8.html)
 
 1. 从 [CBeta][CB] 网站下载《大乘起信论》[梁译][T1666] 和 [唐译][T1667] 的HTML文件：T1666.html、T1667.html。
 
@@ -85,7 +86,7 @@
 
    - 最后退出科判标引，检查科判标引：
      - 注掉 `changed.jstree` 响应函数中的 `convertToSpanWithTag('kepan', data.node.id, data.node.text);`，
-       换成 `highlightJudg(data.node.id, 'nav');`，这样在左边导航栏点击科判节点将高亮正文的响应内容。
+       换成 `highlightKePan(data.node.id, 'nav');`，这样在左边导航栏点击科判节点将高亮正文的响应内容。
      - 鼠标在正文有科判标记处滑过，在状态栏能看到两栏的科判标记数量，如果数量不一致可调整网页。
      - 数量一致时鼠标滑过会左右同步高亮显示。
 
@@ -122,6 +123,10 @@
      initNotes(T1846Notes, '[義]', '.cell-l');
      // initNotes(T1850Notes, '[裂]', '.cell-r');
      ```
+
+   - 在有科判的正文处单击，插入第一条注解标记；如果第一条注解标记需要跳过，则在标注面板双击。
+     完成后在浏览器的控制台执行 `outputContent()`，复制相应内容替换页面的 `#content` 元素。
+
 
 [CB]: http://cbetaonline.cn
 [T1666]: http://cbetaonline.cn/zh/T1666_001

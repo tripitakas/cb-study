@@ -4,7 +4,7 @@
   <title>大乘起信論(对照)</title>
   <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css"/>
   <link rel="stylesheet" href="assets/jstree/jstree.min.css"/>
-  <link href="assets/cb.css?v=5212" rel="stylesheet"/>
+  <link href="assets/cb.css?v=801" rel="stylesheet"/>
   <link href="assets/note.css" rel="stylesheet"/>
   <style>
     @media screen {
@@ -862,7 +862,7 @@
   });
   $judgments.on('changed.jstree', function (e, data) {
     // convertToSpanWithTag('kepan', data.node.id, data.node.text);
-    highlightJudg(data.node.id, 'nav');
+    highlightKePan(data.node.id, 'nav');
   });
 
   setTimeout(function () {
@@ -875,7 +875,7 @@
       let $tag = $(this),
           id = parseInt($tag.attr('data-note-id')),
           note = notes.filter(item => item[0] == id)[0],
-          $judg = $tag.closest('[kepan]'),
+          $kepan = $tag.closest('[kepan]'),
           title = [], rows = [];
       console.assert(note && note.length % 3 === 0, id + ' mismatch');
       for (let i = 0; i + 2 < note.length; i += 3) {
@@ -892,7 +892,7 @@
       }
       $tag.attr('title', title.join('\n'));
       $('<p class="note-p" data-note-id="' + id + '">' + rows.join('<br>') + '</p>')
-        .insertAfter($judg.closest('.lg').length ? $judg.closest('.lg') : $judg);
+        .insertAfter($kepan.closest('.lg').length ? $kepan.closest('.lg') : $kepan);
     });
   }
 

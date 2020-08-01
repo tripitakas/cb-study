@@ -734,9 +734,9 @@
   // 在左边导航栏点击科判节点
   $judgments.on('changed.jstree', function (e, data) {
     // convertToSpanWithTag('kepan', data.node.id, data.node.text);  // 加科判标记
-    highlightJudg(data.node.id, 'nav');  // 高亮科判标记文字
+    highlightKePan(data.node.id, 'nav');  // 高亮科判标记文字
   });
 
-  showInlineWithoutJudgments();  // 每条科判文单行显示
+  showInlineWithoutKePan();  // 每条科判文单行显示
 </script>
 </body></html>

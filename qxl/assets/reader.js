@@ -77,8 +77,8 @@ $('#show-both').click(showTwoColumns);
 
 $('#enlarge-font').click(enlargeFont);
 $('#reduce-font').click(reduceFont);
-$('#show-inline-kepan').click(showInlineJudgments);
-$('#show-inline-no-kepan').click(showInlineWithoutJudgments);
+$('#show-inline-kepan').click(showInlineKePan);
+$('#show-inline-no-kepan').click(showInlineWithoutKePan);
 
 
 // 将多个段落编号的串转换为选择器数组
@@ -167,7 +167,7 @@ function convertToSpanWithTag(tag, value, text) {
 }
 
 // 切换显隐正文内的科判标记，段内各项分行显示
-function showInlineJudgments(reset) {
+function showInlineKePan(reset) {
   const tree = $.jstree.reference('#judgments');
 
   if (reset) {
@@ -195,16 +195,20 @@ function showInlineJudgments(reset) {
 }
 
 // 段内各项分行显示，不显示科判标记
-function showInlineWithoutJudgments() {
-  showInlineJudgments();
+function showInlineWithoutKePan() {
+  showInlineKePan();
   $('body').addClass('hide-kepan-txt');
 }
 
 // 高亮显示科判节点对应的正文span片段
-function highlightJudg(judgId, scroll, level) {
+function highlightKePan(kePanId, scroll, level) {
   const tree = $.jstree.reference('#judgments');
-  let $s = $('[kepan="' + judgId + '"], [kepan^="' + judgId + 'p"]');
+  let $s = $('[kepan="' + kePanId + '"], [kepan^="' + kePanId + 'p"]'),
+      scrollToOne = $s.get().indexOf(scroll) >= 0;
 
+  if (scrollToOne) {
+    $s = $(scroll);
+  }
   $s.addClass('highlight');
   if ($s[0]) {
     setTimeout(() => {
@@ -218,10 +222,10 @@ function highlightJudg(judgId, scroll, level) {
   }
   $s.addClass('active');
 
-  const nodes = tree.get_children_dom(judgId);
-  if (nodes) {
+  const nodes = tree.get_children_dom(kePanId);
+  if (nodes && !scrollToOne) {
     for (let node of nodes.get()) {
-      let r = highlightJudg(node.getAttribute('id'), false, (level || 0) + 1);
+      let r = highlightKePan(node.getAttribute('id'), false, (level || 0) + 1);
       $s = $s[0] ? $s : r;
     }
   }
@@ -237,32 +241,32 @@ function highlightJudg(judgId, scroll, level) {
   }
   if (scroll && scroll !== 'nav') {
     if (scroll !== 2) {  // footer
-      showJudgPath(judgId);
+      showKePanPath(kePanId);
     }
     tree.deselect_all(true);
-    tree.select_node(judgId, true);
+    tree.select_node(kePanId, true);
   }
 
   return $s;
 }
 
 // 在状态栏显示科判路径
-function showJudgPath(judgId) {
+function showKePanPath(kePanId) {
   const tree = $.jstree.reference('#judgments');
-  const node = tree.get_node(judgId);
+  const node = tree.get_node(kePanId);
   let texts = [];
 
   if (node) {
     for (let p of node.parents) {
       let t = tree.get_node(p).text;
       if (t) {
-        texts.splice(0, 0, '<a onclick="highlightJudg(' + p + ',2)">' + t + '</a>');
+        texts.splice(0, 0, '<a onclick="highlightKePan(' + p + ',2)">' + t + '</a>');
       }
     }
-    texts.push('<a onclick="highlightJudg(' + judgId + ',2)">' + node.text + '</a>');
+    texts.push('<a onclick="highlightKePan(' + kePanId + ',2)">' + node.text + '</a>');
   }
 
-  let sel = '[kepan="' + judgId + '"]',
+  let sel = '[kepan="' + kePanId + '"]',
       row = $(sel).closest('.row'),
       leftS = row.find('.cell-l').find(sel),
       rightS = row.find('.cell-r').find(sel);
@@ -271,7 +275,7 @@ function showJudgPath(judgId) {
    ' <small>(' + leftS.length + ', ' + rightS.length + ')</small>' : ''));
 }
 
-function getJudgId(el) {
+function getKePanId(el) {
   for (let i = 0; i < 3 && el; i++, el = el.parentElement) {
     if (el.getAttribute('kepan')) {
       return parseInt(el.getAttribute('kepan'));
@@ -281,10 +285,10 @@ function getJudgId(el) {
 
 // 在正文有科判标记的span上鼠标掠过
 $(document).on('mouseover', '[kepan]', function (e) {
-  let judgId = getJudgId(e.target),
+  let kePanId = getKePanId(e.target),
       tree = $.jstree.reference('#judgments'),
-      node = tree.get_node(judgId),
-      sel = '[kepan="' + judgId + '"]',
+      node = tree.get_node(kePanId),
+      sel = '[kepan="' + kePanId + '"]',
       spans = $(sel),
       row = $(e.target).closest('.row');
 
@@ -313,20 +317,20 @@ $(document).on('mouseover', '[kepan]', function (e) {
 
 // 在正文有科判标记的span上鼠标滑入
 $(document).on('mouseenter', '[kepan]', function (e) {
-  showJudgPath(getJudgId(e.target));
+  showKePanPath(getKePanId(e.target));
 });
 
 // 在正文有科判标记的span上鼠标滑出
 $(document).on('mouseleave', '[kepan]', function (e) {
-  let judgId = $('[kepan].active').attr('kepan');
-  if (judgId) {
-    showJudgPath(judgId);
+  let kePanId = $('[kepan].active').attr('kepan');
+  if (kePanId) {
+    showKePanPath(kePanId);
   }
 });
 
 // 在正文有科判标记的span上点击
 $(document).on('click', '[kepan]', function (e) {
-  highlightJudg(getJudgId(e.target), 'click');
+  highlightKePan(getKePanId(e.target), 'click');
 });
 
 
