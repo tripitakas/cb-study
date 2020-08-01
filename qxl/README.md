@@ -2,8 +2,12 @@
 
 本文说明《大乘起信论》新旧译本对照、内置科判导航、合并注论释的制作过程。
 
-- [操作结果网页](T1666-1667.html)
-- [科判标引网页](T1666K.html)
+- [最终网页](T1666K.html)
+- [第3步: 合并为两栏的页面](step3.html)
+- [第4步: 段落分组两栏对照](step4.html)
+- [第5步: 退出段落分组模式](step5.html)
+- [第6步: 科判标引](step6.html)
+- [第7步: 加导航条](step7.html)
 
 1. 从 [CBeta][CB] 网站下载《大乘起信论》[梁译][T1666] 和 [唐译][T1667] 的HTML文件：T1666.html、T1667.html。
 
@@ -14,7 +18,7 @@
    两卷唐译的第一个`<div id='body'>`改为`<div id='body-right'>`，删除其余的`</div><div id='body'>`。
    删除`cbeta-copyright`节点。
    
-   然后运行 `python3 util/p_add_id.py qxl/T1666-1667.html`为每个段落分配编号，得到 `T1666-1667.html`。
+   然后运行 `python3 util/p_add_id.py qxl/step5.html`为每个段落分配编号，得到 `step5.html`。
    
 3. 将合并后的网页改为左右两栏的页面，加上 bootstrap、jquery、cb.css 的引用，将上面的 `<div id='body...>` 改造为：
 
@@ -40,7 +44,7 @@
    ```html
     <div class="label-panel">
       <div class="current-row">
-        <p>在左边两栏中依次点击要同在一组的段落。</p>
+        <p>在左边红线下两栏中依次点击要同在一组的段落。</p>
         <div class="row">
           <label class="col-xs-2">左栏：</label>
           <div class="col-xs-10 row-left-ids"></div>
@@ -84,6 +88,9 @@
        换成 `highlightJudg(data.node.id, 'nav');`，这样在左边导航栏点击科判节点将高亮正文的响应内容。
      - 鼠标在正文有科判标记处滑过，在状态栏能看到两栏的科判标记数量，如果数量不一致可调整网页。
      - 数量一致时鼠标滑过会左右同步高亮显示。
+
+7. 加顶部导航条，成为方便阅读的页面
+   - 见页面的 `<nav class="navbar navbar-default navbar-fixed-top"...>` 部分
 
 [CB]: http://cbetaonline.cn
 [T1666]: http://cbetaonline.cn/zh/T1666_001

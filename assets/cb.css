@@ -99,6 +99,7 @@ body:not(.show-hide-txt) .hide-txt {
   display: none;
 }
 
+td { padding: .5em; font-size: 18px; }
 
 footer {
   position: fixed;
