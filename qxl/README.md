@@ -92,6 +92,16 @@
 7. 加顶部导航条，成为方便阅读的页面
    - 见页面的 `<nav class="navbar navbar-default navbar-fixed-top"...>` 部分
 
+8. 合并注解到论文，将《義記》《裂網疏》的相关注解插入论文中。
+   - 按步骤1下载并合并论疏网页 `T1846_001.html` 和 `T1850_001.html`
+   - 将论疏网页的原文内容标记加粗，提取原文和注解到JSON文件：
+
+     ```sh
+     python util/mark_ori_bold.py qxl/T1846_001.html
+     python util/extract_for_merge.py qxl/T1846_001-.html
+     ```
+   - 然后将JSON文件改为js文件（便于在HTML中静态加载），见`assets/T1846.json.js`的首行改动
+
 [CB]: http://cbetaonline.cn
 [T1666]: http://cbetaonline.cn/zh/T1666_001
 [T1667]: http://cbetaonline.cn/zh/T1667_001

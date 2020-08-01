@@ -12,5 +12,6 @@
 
 # This project
 _*.*
+*-.html
 qxl/assets/bootstrap
 qxl/assets/jstree
