@@ -1,0 +1,69 @@
+// 根据注解锚点插入注解段落
+function insertNotes($side, notes) {
+  $side.find('.note-tag').each(function() {
+    let $tag = $(this),
+        id = parseInt($tag.attr('data-note-id')),
+        note = notes.filter(item => item[0] == id)[0],
+        $kepan = $tag.closest('[kepan]'),
+        title = [], rows = [];
+    console.assert(note && note.length % 3 === 0, id + ' mismatch');
+    for (let i = 0; i + 2 < note.length; i += 3) {
+      title.push(note[i + 1]);
+      rows.push('<span class="note-item"><span class="org-text">' +
+        (note[i + 1].length > 4 ? note[i + 1].substring(0, 3) +
+            '<span class="more" data-more="' + note[i + 1].substring(3) + '">…</span>' : note[i + 1]) +
+        '</span><span class="note-text">' + note[i + 2] + '</span></span>');
+    }
+    if (rows.length > 1 && 0) {
+      console.log(rows);
+      $tag.text($tag.text() + rows.length);
+      setTimeout(() => $tag.click() );
+    }
+    if (!$kepan[0]) {
+      $kepan = $tag.parent();
+    }
+    $tag.attr('title', title.join('\n'));
+    $('<p class="note-p" data-note-id="' + id + '">' + rows.join('<br>') + '</p>')
+      .insertAfter($kepan.closest('.lg').length ? $kepan.closest('.lg') : $kepan);
+  });
+}
+
+// 单击注解锚点标记则展开注解段落
+$(document).on('click', '.note-tag', function (e) {
+  let $this = $(e.target),
+      id = $this.attr('data-note-id'),
+      $p = $this.closest('.cell-l, .cell-r').find('.note-p[data-note-id=' + id + ']');
+
+  $p.toggle();
+  $this.toggleClass('note-expanded');
+  e.stopPropagation();
+});
+
+// 双击注解段落则收起隐藏
+$(document).on('dblclick', '.note-p', function (e) {
+  let $p = $(e.target).closest('.note-p'),
+      id = $p.attr('data-note-id'),
+      $tag = $p.closest('.cell-l, .cell-r').find('.note-tag[data-note-id=' + id + ']');
+  $p.toggle();
+  $tag.toggleClass('note-expanded');
+  e.stopPropagation();
+});
+
+// 单击 … 展开文字
+$(document).on('click', '.more', function (e) {
+  let $s = $(e.target);
+  $s.text($s.text() === '…' ? $s.attr('data-more') : '…');
+});
+
+// 显隐全部注解
+$('#show-notes').click(() => {
+  let expanded = $('.note-tag.note-expanded').length;
+  $('.note-p').toggle(!expanded);
+  $('.note-tag').toggleClass('note-expanded', !expanded);
+});
+
+// 单击注释切换当前条
+$(document).on('click', '.note-text', function (e) {
+  $(e.target).closest('.cell-l, .cell-r').find('.note-item').removeClass('active');
+  $(e.target).closest('.note-item').addClass('active');
+});
