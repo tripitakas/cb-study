@@ -118,23 +118,26 @@ footer a:hover {
   cursor: pointer;
 }
 
-span[judg] {
+[judg] {
   margin-right: .7em;
   transition: alls .3s ease-in-out;
 }
-span[judg] > .judg-text {
-  font-size: .6em;
+.judg-text {
+  font-size: .5em;
   color: #777;
 }
 .hide-judg-txt .judg-text {
   display: none;
 }
-.show-inline-judg :not(.juan) > span[judg] {
+.show-inline-judg :not(.juan) > [judg] {
   margin-right: 0;
   display: block;
 }
 [judg].active, [judg]:hover, [judg].hover, .highlight {
   color: green;
+}
+.lg-row[judg].active, .lg-row[judg]:hover, .lg-row[judg].hover {
+  color: #4080f0;
 }
 [judg].active, .highlight {
   font-weight: 700;

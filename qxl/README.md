@@ -79,6 +79,12 @@
      依次选中论文文本，点击科判节点，即将此文本提取为一个span，并设置其科判编号。允许有多个相同科判号的相邻span。
      不断重复此过程，完成(或部分完成)后复制`#content`元素的整个HTML内容到网页文件。
 
+   - 最后退出科判标引，检查科判标引：
+     - 注掉 `changed.jstree` 响应函数中的 `convertToSpanWithTag('judg', data.node.id, data.node.text);`，
+       换成 `highlightJudg(data.node.id, 'nav');`，这样在左边导航栏点击科判节点将高亮正文的响应内容。
+     - 鼠标在正文有科判标记处滑过，在状态栏能看到两栏的科判标记数量，如果数量不一致可调整网页。
+     - 数量一致时鼠标滑过会左右同步高亮显示。
+
 [CB]: http://cbetaonline.cn
 [T1666]: http://cbetaonline.cn/zh/T1666_001
 [T1667]: http://cbetaonline.cn/zh/T1667_001
