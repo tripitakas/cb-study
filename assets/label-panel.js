@@ -3,7 +3,7 @@ let $labelPanel = $('.label-panel > div'),
     notes = T1850Notes, noteTag = '[裂]';
 
 notes.forEach(note => {
-  let $tag = $content.find('[judg] > [data-note-id=' + note[0] + ']');
+  let $tag = $content.find('[kepan] > [data-note-id=' + note[0] + ']');
   $labelPanel.append($('<p id="note' + note[0] + '" class="' + ($tag.length ? 'linked' : '') +
     '">' + note[0] + ': <span>' + note[1] + '</span>: ' + note[2] + '</p>'));
 });
@@ -22,7 +22,7 @@ $(document).on('click', '.label-panel p>span', function (e) {
   }
 });
 
-$(document).on('click', '[judg]', function (e) {
+$(document).on('click', '[kepan]', function (e) {
   let $this = $(e.target),
       $p = $('.label-panel p:first-child'),
       id = $p.attr('id').substring(4),

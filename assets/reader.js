@@ -147,17 +147,17 @@ function convertToSpanWithTag(tag, value, text) {
 function showInlineJudgments() {
   const tree = $.jstree.reference('#judgments');
 
-  $('body').toggleClass('show-inline-judg');
-  $('body').removeClass('hide-judg-txt');
-  $('span[judg]').each((i, s) => {
-    let $s = $(s), $j = $s.find('.judg-text');
+  $('body').toggleClass('show-inline-kepan');
+  $('body').removeClass('hide-kepan-txt');
+  $('span[kepan]').each((i, s) => {
+    let $s = $(s), $j = $s.find('.kepan-text');
 
     if ($j.length) {
       $j.remove();
     } else {
-      const node = tree.get_node($s.attr('judg'));
+      const node = tree.get_node($s.attr('kepan'));
       if (node) {
-        $j = $('<span class="judg-text">[' + node.text.replace(/^.+、|[(（].+$/g, '') + ']</span>');
+        $j = $('<span class="kepan-text">[' + node.text.replace(/^.+、|[(（].+$/g, '') + ']</span>');
         $s.append($j);
       }
     }
@@ -165,18 +165,18 @@ function showInlineJudgments() {
 }
 
 // 切换显隐正文内的科判标记，段内各项分行显示
-$('#show-inline-judg').click(showInlineJudgments);
+$('#show-inline-kepan').click(showInlineJudgments);
 
 // 段内各项分行显示，不显示科判标记
-$('#show-inline-no-judg').click(() => {
+$('#show-inline-no-kepan').click(() => {
   showInlineJudgments();
-  $('body').addClass('hide-judg-txt');
+  $('body').addClass('hide-kepan-txt');
 });
 
 // 高亮显示科判节点对应的正文span片段
 function highlightJudg(judgId, scroll, level) {
   const tree = $.jstree.reference('#judgments');
-  let $s = $('[judg="' + judgId + '"], [judg^="' + judgId + 'p"]');
+  let $s = $('[kepan="' + judgId + '"], [kepan^="' + judgId + 'p"]');
 
   $s.addClass('highlight');
   if ($s[0]) {
@@ -186,8 +186,8 @@ function highlightJudg(judgId, scroll, level) {
   }
 
   if (!level) {
-    $('[judg]').removeClass('active');
-    $('[judg]').removeClass('hover');
+    $('[kepan]').removeClass('active');
+    $('[kepan]').removeClass('hover');
   }
   $s.addClass('active');
 
@@ -235,23 +235,23 @@ function showJudgPath(judgId) {
     texts.push('<a onclick="highlightJudg(' + judgId + ',2)">' + node.text + '</a>');
   }
 
-  $('.judg-path').html(texts.join(' / '));
+  $('.kepan-path').html(texts.join(' / '));
 }
 
 function getJudgId(el) {
   for (let i = 0; i < 3 && el; i++, el = el.parentElement) {
-    if (el.getAttribute('judg')) {
-      return parseInt(el.getAttribute('judg'));
+    if (el.getAttribute('kepan')) {
+      return parseInt(el.getAttribute('kepan'));
     }
   }
 }
 
 // 在正文有科判标记的span上鼠标掠过
-$(document).on('mouseover', '[judg]', function (e) {
+$(document).on('mouseover', '[kepan]', function (e) {
   let judgId = getJudgId(e.target),
       tree = $.jstree.reference('#judgments'),
       node = tree.get_node(judgId),
-      sel = 'span[judg="' + judgId + '"]',
+      sel = 'span[kepan="' + judgId + '"]',
       spans = $(sel),
       row = $(e.target).closest('.row');
 
@@ -275,20 +275,20 @@ $(document).on('mouseover', '[judg]', function (e) {
 });
 
 // 在正文有科判标记的span上鼠标滑入
-$(document).on('mouseenter', '[judg]', function (e) {
+$(document).on('mouseenter', '[kepan]', function (e) {
   showJudgPath(getJudgId(e.target));
 });
 
 // 在正文有科判标记的span上鼠标滑出
-$(document).on('mouseleave', '[judg]', function (e) {
-  let judgId = $('[judg].active').attr('judg');
+$(document).on('mouseleave', '[kepan]', function (e) {
+  let judgId = $('[kepan].active').attr('kepan');
   if (judgId) {
     showJudgPath(judgId);
   }
 });
 
 // 在正文有科判标记的span上点击
-$(document).on('click', '[judg]', function (e) {
+$(document).on('click', '[kepan]', function (e) {
   highlightJudg(getJudgId(e.target), 'click');
 });
 
@@ -344,7 +344,7 @@ $('#to-table').click(() => {
   }
   $('#content').append($('<table><tbody></tbody></table>'));
   let $table = $('#content table'), $rows = $('#content > .row');
-  $rows.find('span[judg]').each((i, el) => {
+  $rows.find('span[kepan]').each((i, el) => {
     $(el).changeElementType('P');
   });
   $rows.each((i, el) => {
