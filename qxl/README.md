@@ -114,7 +114,7 @@
      <script src="assets/T1850.json.js"></script>
      ```
 
-     添加标注面板 `<div class="label-panel"><div></div></div>`。
+     添加标注面板 `<div class="label-panel"><div class="items"></div></div>`。
 
      开始标注左列的义记注解：
 
@@ -127,6 +127,17 @@
    - 在有科判的正文处单击，插入第一条注解标记；如果第一条注解标记需要跳过，则在标注面板双击。
      完成后在浏览器的控制台执行 `outputContent()`，复制相应内容替换页面的 `#content` 元素。
 
+9. 退出注解合并模式：
+   - 去掉 `label-panel.css`、`label-panel.js` 的引用
+   - 去掉 `.label-panel` 标注面板
+   - 去掉 `initNotes` 的调用
+   - 加上 `note.js` 的引用，根据注解锚点插入注解段落：
+
+     ```js
+     $('.note-p').remove();
+     insertNotes($('.cell-l'), T1846Notes);  // 義記
+     insertNotes($('.cell-r'), T1850Notes);  // 裂網疏
+     ```
 
 [CB]: http://cbetaonline.cn
 [T1666]: http://cbetaonline.cn/zh/T1666_001
