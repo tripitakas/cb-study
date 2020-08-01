@@ -102,6 +102,7 @@ body:not(.show-hide-txt) .hide-txt {
   display: none;
 }
 
+td { padding: .5em; font-size: 18px; }
 
 footer {
   position: fixed;
@@ -118,34 +119,34 @@ footer a:hover {
   cursor: pointer;
 }
 
-[judg] {
+[kepan] {
   margin-right: .7em;
   transition: alls .3s ease-in-out;
 }
-.judg-text {
+.kepan-text {
   font-size: .5em;
   color: #777;
 }
-.hide-judg-txt .judg-text {
+.hide-kepan-txt .kepan-text {
   display: none;
 }
-.show-inline-judg :not(.juan) > [judg] {
+.show-inline-kepan :not(.juan) > [kepan] {
   margin-right: 0;
   display: block;
 }
-[judg].active, [judg]:hover, [judg].hover, .highlight {
+[kepan].active, [kepan]:hover, [kepan].hover, .highlight {
   color: green;
 }
-.lg-row[judg].active, .lg-row[judg]:hover, .lg-row[judg].hover {
+.lg-row[kepan].active, .lg-row[kepan]:hover, .lg-row[kepan].hover {
   color: #4080f0;
 }
-[judg].active, .highlight {
+[kepan].active, .highlight {
   font-weight: 700;
 }
-[judg].hover {
+[kepan].hover {
   color: #008000;
 }
-.show-inline-judg .row p {
+.show-inline-kepan .row p {
   margin-bottom: .5em;
 }
 

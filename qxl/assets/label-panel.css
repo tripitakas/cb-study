@@ -31,12 +31,16 @@
   overflow: hidden;
   white-space: nowrap;
 }
-.label-panel p:first-child > span:first-child {
+.label-panel p > span:first-child {
   font-weight: 700;
+}
+.label-panel p:first-child > span:first-child {
+  color: #00f;
 }
 .label-panel .linked {
   text-decoration: line-through;
   color: #999;
+  cursor: pointer;
 }
 
 #merged {

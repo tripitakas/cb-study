@@ -2,8 +2,13 @@
 
 本文说明《大乘起信论》新旧译本对照、内置科判导航、合并注论释的制作过程。
 
-- [操作结果网页](T1666-1667.html)
-- [科判标引网页](T1666K.html)
+- [最终网页](T1666K.html)
+- [第3步: 合并为两栏的页面](step3.html)
+- [第4步: 段落分组两栏对照](step4.html)
+- [第5步: 退出段落分组模式](step5.html)
+- [第6步: 科判标引](step6.html)
+- [第7步: 加导航条](step7.html)
+- [第8步: 合并注解到论文](step8.html)
 
 1. 从 [CBeta][CB] 网站下载《大乘起信论》[梁译][T1666] 和 [唐译][T1667] 的HTML文件：T1666.html、T1667.html。
 
@@ -14,7 +19,7 @@
    两卷唐译的第一个`<div id='body'>`改为`<div id='body-right'>`，删除其余的`</div><div id='body'>`。
    删除`cbeta-copyright`节点。
    
-   然后运行 `python3 util/p_add_id.py qxl/T1666-1667.html`为每个段落分配编号，得到 `T1666-1667.html`。
+   然后运行 `python3 util/p_add_id.py qxl/step5.html`为每个段落分配编号，得到 `step5.html`。
    
 3. 将合并后的网页改为左右两栏的页面，加上 bootstrap、jquery、cb.css 的引用，将上面的 `<div id='body...>` 改造为：
 
@@ -40,7 +45,7 @@
    ```html
     <div class="label-panel">
       <div class="current-row">
-        <p>在左边两栏中依次点击要同在一组的段落。</p>
+        <p>在左边红线下两栏中依次点击要同在一组的段落。</p>
         <div class="row">
           <label class="col-xs-2">左栏：</label>
           <div class="col-xs-10 row-left-ids"></div>
@@ -80,10 +85,48 @@
      不断重复此过程，完成(或部分完成)后复制`#content`元素的整个HTML内容到网页文件。
 
    - 最后退出科判标引，检查科判标引：
-     - 注掉 `changed.jstree` 响应函数中的 `convertToSpanWithTag('judg', data.node.id, data.node.text);`，
-       换成 `highlightJudg(data.node.id, 'nav');`，这样在左边导航栏点击科判节点将高亮正文的响应内容。
+     - 注掉 `changed.jstree` 响应函数中的 `convertToSpanWithTag('kepan', data.node.id, data.node.text);`，
+       换成 `highlightKePan(data.node.id, 'nav');`，这样在左边导航栏点击科判节点将高亮正文的响应内容。
      - 鼠标在正文有科判标记处滑过，在状态栏能看到两栏的科判标记数量，如果数量不一致可调整网页。
      - 数量一致时鼠标滑过会左右同步高亮显示。
+
+7. 加顶部导航条，成为方便阅读的页面
+   - 见页面的 `<nav class="navbar navbar-default navbar-fixed-top"...>` 部分
+
+8. 合并注解到论文，将《義記》《裂網疏》的相关注解插入论文中。
+   - 按步骤1下载并合并论疏网页 `T1846_001.html` 和 `T1850_001.html`
+   - 将论疏网页的原文内容标记加粗，提取原文和注解到JSON文件：
+
+     ```sh
+     python util/mark_ori_bold.py qxl/T1846_001.html
+     python util/extract_for_merge.py qxl/T1846_001-.html
+     ```
+   - 然后将JSON文件改为js文件（便于在HTML中静态加载），见`assets/T1846.json.js`的首行改动
+
+   - 在页面引用这两个注解JSON文件和相关样式、标注用的脚本文件：
+
+     ```html
+     <link href="assets/note.css" rel="stylesheet"/>
+     <link href="assets/label-panel.css" rel="stylesheet"/>
+
+     <script src="assets/label-panel.js"></script>
+     <script src="assets/T1846.json.js"></script>
+     <script src="assets/T1850.json.js"></script>
+     ```
+
+     添加标注面板 `<div class="label-panel"><div></div></div>`。
+
+     开始标注左列的义记注解：
+
+     ```js
+     $('#hide-kepan').click();
+     initNotes(T1846Notes, '[義]', '.cell-l');
+     // initNotes(T1850Notes, '[裂]', '.cell-r');
+     ```
+
+   - 在有科判的正文处单击，插入第一条注解标记；如果第一条注解标记需要跳过，则在标注面板双击。
+     完成后在浏览器的控制台执行 `outputContent()`，复制相应内容替换页面的 `#content` 元素。
+
 
 [CB]: http://cbetaonline.cn
 [T1666]: http://cbetaonline.cn/zh/T1666_001

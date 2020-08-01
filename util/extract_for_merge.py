@@ -9,14 +9,16 @@ import re
 import json
 
 
-def extract(html_file, out_file):
+def extract(html_file, out_file=None):
     rows = open(html_file).readlines()
     rows = [(i, re.search(r'<b class="ori">(.+?)</b>', r).group(1),
              re.search(r'</b>　(.+?)</p>', r).group(1))
             for i, r in enumerate(rows) if '<b class="ori">' in r and '　' in r]
-    with open(out_file, 'w') as f:
+    with open(out_file or re.sub(r'(_\d+)?-?\.html', '_notes.json', html_file), 'w') as f:
         json.dump(rows, f, ensure_ascii=False, indent=2)
 
 
 if __name__ == '__main__':
-    extract('/Users/zyg/Desktop/lq/cb-study/T1850.html', 'T1850.json.js')
+    import fire
+
+    fire.Fire(extract)
