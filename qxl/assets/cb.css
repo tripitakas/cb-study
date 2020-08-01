@@ -136,6 +136,9 @@ footer a:hover {
 [judg].active, [judg]:hover, [judg].hover, .highlight {
   color: green;
 }
+.lg-row[judg].active, .lg-row[judg]:hover, .lg-row[judg].hover {
+  color: #4080f0;
+}
 [judg].active, .highlight {
   font-weight: 700;
 }

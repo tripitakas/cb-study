@@ -262,7 +262,13 @@ function showJudgPath(judgId) {
     texts.push('<a onclick="highlightJudg(' + judgId + ',2)">' + node.text + '</a>');
   }
 
-  $('.judg-path').html(texts.join(' / '));
+  let sel = '[judg="' + judgId + '"]',
+      row = $(sel).closest('.row'),
+      leftS = row.find('.cell-l').find(sel),
+      rightS = row.find('.cell-r').find(sel);
+
+  $('.judg-path').html(texts.join(' / ') + (texts.length ?
+   ' <small>(' + leftS.length + ', ' + rightS.length + ')</small>' : ''));
 }
 
 function getJudgId(el) {
@@ -278,7 +284,7 @@ $(document).on('mouseover', '[judg]', function (e) {
   let judgId = getJudgId(e.target),
       tree = $.jstree.reference('#judgments'),
       node = tree.get_node(judgId),
-      sel = 'span[judg="' + judgId + '"]',
+      sel = '[judg="' + judgId + '"]',
       spans = $(sel),
       row = $(e.target).closest('.row');
 
@@ -286,16 +292,20 @@ $(document).on('mouseover', '[judg]', function (e) {
   if (spans.length % 2 === 0 && node && tree.get_children_dom(node).length < 1) {
     let leftSpans = row.find('.cell-l').find(sel),
         rightSpans = row.find('.cell-r').find(sel);
+
     if (leftSpans.length === rightSpans.length) {
-      let leftIndex = leftSpans.get().indexOf(e.target),
-          rightIndex = rightSpans.get().indexOf(e.target);
-      if (leftIndex >= 0) {
-        $(rightSpans[leftIndex]).addClass('hover');
-        $(leftSpans[leftIndex]).addClass('hover');
+      let leftIndex = leftSpans.get().indexOf(e.target) + 1,
+          rightIndex = rightSpans.get().indexOf(e.target) + 1;
+
+      leftIndex = leftIndex || leftSpans.get().indexOf(e.target.parentNode) + 1;
+      rightIndex = rightIndex || rightSpans.get().indexOf(e.target.parentNode) + 1;
+      if (leftIndex) {
+        $(rightSpans[leftIndex - 1]).addClass('hover');
+        $(leftSpans[leftIndex - 1]).addClass('hover');
       }
-      else if (rightIndex >= 0) {
-        $(leftSpans[rightIndex]).addClass('hover');
-        $(rightSpans[rightIndex]).addClass('hover');
+      else if (rightIndex) {
+        $(leftSpans[rightIndex - 1]).addClass('hover');
+        $(rightSpans[rightIndex - 1]).addClass('hover');
       }
     }
   }
