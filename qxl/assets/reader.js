@@ -220,6 +220,12 @@ function highlightKePan(kePanId, scroll, level) {
   if (!level) {
     $('[kepan]').removeClass('active');
     $('[kepan]').removeClass('hover');
+    if (scroll === 'click') {
+      tree.close_all();
+    }
+  }
+  if (scroll === 'click') {
+    tree.open_node(kePanId);
   }
   $s.addClass('active');
 
