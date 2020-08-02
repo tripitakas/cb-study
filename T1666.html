@@ -6,7 +6,6 @@
   <link rel="stylesheet" href="assets/jstree/jstree.min.css"/>
   <link href="assets/cb.css?v=801" rel="stylesheet"/>
   <link href="assets/note.css" rel="stylesheet"/>
-  <link href="assets/label-panel.css" rel="stylesheet"/>
   <style>
     @media screen {
       body {
@@ -109,8 +108,6 @@
 
       <ul class="nav navbar-nav navbar-right">
         <li><a href="T1666.pdf">科判对照PDF</a></li>
-        <li><a href="#" onclick="initNotes(T1846Notes, '[義]', '.cell-l')" class="init-notes-btn init-notes-l">[義]</a></li>
-        <li><a href="#" onclick="initNotes(T1850Notes, '[裂]', '.cell-r')" class="init-notes-btn init-notes-r">[裂]</a></li>
       </ul>
 
     </div>
@@ -915,8 +912,6 @@
   </div>
 </div>
 
-<div class="label-panel"><div class="items"></div></div>
-
 <footer>
   <p class="kepan-path"></p>
 </footer>
@@ -929,7 +924,6 @@
 <script src="assets/T1846.json.js?v=801"></script>
 <script src="assets/T1850.json.js?v=801"></script>
 <script src="assets/note.js?v=801"></script>
-<script src="assets/label-panel.js"></script>
 
 <script>
   let $judgments = $('#judgments');
@@ -952,9 +946,6 @@
   $('.note-p').remove();
   insertNotes($('.cell-l'), T1846Notes);  // 義記
   insertNotes($('.cell-r'), T1850Notes);  // 裂網疏
-
-  $('#hide-kepan').click();
-  initNotes(T1846Notes, '[義]', '.cell-l');
 </script>
 </body>
 </html>
