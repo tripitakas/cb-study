@@ -1,10 +1,11 @@
 // 显隐行号
 function showLineNo() {
-  $('#content p, #content .lg-row').each((i, p) => {
+  $('#content p, #content .lg-row, #content .lg').each((i, p) => {
     const $p = $(p);
     if ($p.find('.line-no').length) {
       $p.find('.line-no').remove();
-    } else {
+    }
+    else if ($p.attr('id')) {
       $p.prepend($('<span class="line-no">[' + $p.attr('id').replace(/^p/, '') + ']</span>'));
     }
   });

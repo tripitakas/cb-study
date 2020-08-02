@@ -4,7 +4,7 @@ function insertNotes($side, notes) {
     let $tag = $(this),
         id = parseInt($tag.attr('data-note-id')),
         note = notes.filter(item => item[0] == id)[0],
-        $kepan = $tag.closest('[kepan]'),
+        $kePan = $tag.closest('[kepan]'),
         title = [], rows = [];
     console.assert(note && note.length % 3 === 0, id + ' mismatch');
     for (let i = 0; i + 2 < note.length; i += 3) {
@@ -19,12 +19,12 @@ function insertNotes($side, notes) {
       $tag.text($tag.text() + rows.length);
       setTimeout(() => $tag.click() );
     }
-    if (!$kepan[0]) {
-      $kepan = $tag.parent();
+    if (!$kePan[0]) {
+      $kePan = $tag.parent();
     }
     $tag.attr('title', title.join('\n'));
     $('<p class="note-p" data-note-id="' + id + '">' + rows.join('<br>') + '</p>')
-      .insertAfter($kepan.closest('.lg').length ? $kepan.closest('.lg') : $kepan);
+      .insertAfter($kePan.closest('.lg').length ? $kePan.closest('.lg') : $kePan);
   });
 }
 
