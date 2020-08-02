@@ -1,10 +1,11 @@
 // 显隐行号
 function showLineNo() {
-  $('#content p, #content .lg-row').each((i, p) => {
+  $('#content p, #content .lg-row, #content .lg').each((i, p) => {
     const $p = $(p);
     if ($p.find('.line-no').length) {
       $p.find('.line-no').remove();
-    } else {
+    }
+    else if ($p.attr('id')) {
       $p.prepend($('<span class="line-no">[' + $p.attr('id').replace(/^p/, '') + ']</span>'));
     }
   });
@@ -219,6 +220,12 @@ function highlightKePan(kePanId, scroll, level) {
   if (!level) {
     $('[kepan]').removeClass('active');
     $('[kepan]').removeClass('hover');
+    if (scroll === 'click') {
+      tree.close_all();
+    }
+  }
+  if (scroll === 'click') {
+    tree.open_node(kePanId);
   }
   $s.addClass('active');
 
