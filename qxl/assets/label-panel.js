@@ -11,12 +11,13 @@ function initNotes(notes, noteTag, cellClass) {
 
   $labelPanel.html(notes.map(note => {
     let $tag = label.cells.find('[data-note-id=' + note[0] + ']'),
-        title = [];
+        title = [],
+        linked = ($tag.text() || '').indexOf(noteTag) >= 0;
     for (let i = 0; i + 2 < note.length; i += 3) {
       title.push(note[i + 1]);
     }
     title = title.join('\n');
-    return '<p id="note' + note[0] + '" class="' + ($tag.length ? 'linked' : '') +
+    return '<p id="note' + note[0] + '" class="' + (linked ? 'linked' : '') +
       '">' + note[0] + ': <span title="' + (title.indexOf('\n') > 0 || title.length > 20 ? title : '') + '">'
        + note[1] + '</span>: ' + note[2] + '</p>';
   }).join('\n'));
@@ -24,13 +25,15 @@ function initNotes(notes, noteTag, cellClass) {
   label.cells.find('.note-tag').each(function() {
     let $tag = $(this),
         id = parseInt($tag.attr('data-note-id')),
-        note = notes.filter(item => item[0] == id)[0],
+        note = notes.filter(item => item[0] === id)[0],
         title = [];
 
     for (let i = 0; i + 2 < note.length; i += 3) {
       title.push(note[i + 1]);
     }
-    $tag.attr('title', title.join('\n'));
+    if ($tag.text().indexOf(noteTag) >= 0) {
+      $tag.attr('title', title.join('\n'));
+    }
   });
 }
 

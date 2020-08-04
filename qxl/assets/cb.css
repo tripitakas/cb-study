@@ -82,19 +82,16 @@ body {
   color: #999;
 }
 
-.show-box #merged .row,
-.show-box #content .row {
+.show-box .row {
   border-bottom: 1px solid #aaa;
 }
 
-.show-box #merged .row p,
-.show-box #content .row p {
+.show-box .row p {
   border-bottom: 1px dotted #bbb;
   margin: 1px;
 }
 
-.show-box #merged .row p:last-child,
-.show-box #content .row p:last-child {
+.show-box .row p:last-child {
   border-bottom: none;
 }
 
@@ -119,26 +116,23 @@ footer a:hover {
   cursor: pointer;
 }
 
-[kepan] {
+span[kepan] {
   margin-right: .7em;
   transition: alls .3s ease-in-out;
 }
-.kepan-text {
-  font-size: .5em;
+span[kepan] > .kepan-text {
+  font-size: .6em;
   color: #777;
 }
 .hide-kepan-txt .kepan-text {
   display: none;
 }
-.show-inline-kepan :not(.juan) > [kepan] {
+.show-inline-kepan :not(.juan) > span[kepan] {
   margin-right: 0;
   display: block;
 }
 [kepan].active, [kepan]:hover, [kepan].hover, .highlight {
   color: green;
-}
-.lg-row[kepan].active, .lg-row[kepan]:hover, .lg-row[kepan].hover {
-  color: #4080f0;
 }
 [kepan].active, .highlight {
   font-weight: 700;
